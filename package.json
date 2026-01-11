@@ -2,13 +2,13 @@
   "name": "web-desa-lampung",
   "type": "module",
   "version": "0.0.1",
-  "scripts": {
+"scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npx astro build",
     "preview": "astro preview",
     "astro": "astro"
-  },
+},
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^5.1.1",
