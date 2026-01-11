@@ -28,6 +28,7 @@ const menuItems = [
 <div id="mobile-sticky-nav" class="fixed top-0 left-0 right-0 z-50 transform -translate-y-full transition-transform duration-300 shadow-lg md:hidden">
   <nav class="w-full bg-[#f3eedc] py-0 border-b border-[#d4cbb8]">
     <div class="w-full">
+      
       <div class="flex items-center justify-start h-14 overflow-x-auto no-scrollbar px-4">
         <div class="flex space-x-2 whitespace-nowrap">
           {menuItems.map((item, index) => (
@@ -45,11 +46,12 @@ const menuItems = [
           <div class="w-2 flex-shrink-0"></div>
         </div>
       </div>
+
     </div>
   </nav>
 </div>
 
-<nav class="sticky top-0 z-50 w-full bg-[#f3eedc] border-b-2 border-[#d4cbb8] shadow-sm hidden md:block">
+<nav class="w-full bg-[#f3eedc] border-b-2 border-[#d4cbb8] shadow-sm hidden md:block">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-center h-16 md:h-20">
       <div class="hidden md:flex w-full justify-center">
@@ -81,21 +83,18 @@ const menuItems = [
 </style>
 
 <script>
-  // Script ini HANYA mengatur transisi Mobile Nav
+  // Script Transisi Mobile Nav
   document.addEventListener('DOMContentLoaded', () => {
     const mobileInitialNav = document.getElementById('mobile-initial-nav');
     const mobileStickyNav = document.getElementById('mobile-sticky-nav');
 
-    // Hanya jalankan logic jika elemen mobile ada (mencegah error di desktop load)
     if (mobileInitialNav && mobileStickyNav) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          // Jika mobile-initial-nav sudah tidak terlihat (scroll ke bawah),
-          // Tampilkan (slide in) mobile-sticky-nav
+          // Trigger saat Vertical Nav (Initial) keluar dari layar ke arah atas
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
             mobileStickyNav.classList.remove('-translate-y-full');
           } else {
-            // Jika kembali ke atas, sembunyikan lagi
             mobileStickyNav.classList.add('-translate-y-full');
           }
         });
