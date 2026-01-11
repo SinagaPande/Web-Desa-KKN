@@ -10,41 +10,44 @@ const menuItems = [
 ];
 ---
 
-<nav class="w-full bg-[#f3eedc] shadow-lg py-0 md:hidden">
-  <div class="max-w-7xl mx-auto px-4">
-    
-    <div class="flex items-center justify-center h-14 overflow-x-auto no-scrollbar">
-      <div class="flex space-x-1 px-2">
-        {menuItems.map((item, index) => (
-          <a
-            href="#"
-            class={`
-                px-4 py-1.5 rounded-full text-xs
-                font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap
-                ${index === 0 
-                    ? 'bg-[#a68a64] text-white shadow-md' 
-                    : 'text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5'
-                }
-            `}
-          >
-            {item}
-          </a>
-        ))}
-      </div>
+<nav id="mobile-initial-nav" class="w-full bg-[#f3eedc] py-8 border-b-2 border-[#d4cbb8] md:hidden">
+  <div class="max-w-md mx-auto px-6">
+    <div class="flex flex-col items-stretch space-y-3">
+      {menuItems.map((item) => (
+        <a
+          href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+          class="text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-300 w-full text-center border border-transparent hover:border-[#d4cbb8]"
+        >
+          {item}
+        </a>
+      ))}
     </div>
-
   </div>
 </nav>
 
-<style>
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-</style>
+<div id="mobile-sticky-nav" class="fixed top-0 left-0 right-0 z-50 transform -translate-y-full transition-transform duration-300 shadow-lg md:hidden">
+  <nav class="w-full bg-[#f3eedc] py-0 border-b border-[#d4cbb8]">
+    <div class="w-full">
+      <div class="flex items-center justify-start h-14 overflow-x-auto no-scrollbar px-4">
+        <div class="flex space-x-2 whitespace-nowrap">
+          {menuItems.map((item, index) => (
+            <a
+              href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+              class={`
+                  px-4 py-1.5 rounded-full text-xs
+                  font-bold uppercase tracking-wider transition-all duration-300
+                  text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5
+              `}
+            >
+              {item}
+            </a>
+          ))}
+          <div class="w-2 flex-shrink-0"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
 
 <nav class="sticky top-0 z-50 w-full bg-[#f3eedc] border-b-2 border-[#d4cbb8] shadow-sm hidden md:block">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,3 +67,43 @@ const menuItems = [
     </div>
   </div>
 </nav>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>
+
+<script>
+  // Script ini HANYA mengatur transisi Mobile Nav
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileInitialNav = document.getElementById('mobile-initial-nav');
+    const mobileStickyNav = document.getElementById('mobile-sticky-nav');
+
+    // Hanya jalankan logic jika elemen mobile ada (mencegah error di desktop load)
+    if (mobileInitialNav && mobileStickyNav) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          // Jika mobile-initial-nav sudah tidak terlihat (scroll ke bawah),
+          // Tampilkan (slide in) mobile-sticky-nav
+          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+            mobileStickyNav.classList.remove('-translate-y-full');
+          } else {
+            // Jika kembali ke atas, sembunyikan lagi
+            mobileStickyNav.classList.add('-translate-y-full');
+          }
+        });
+      }, {
+        threshold: 0 
+      });
+
+      observer.observe(mobileInitialNav);
+    }
+  });
+</script>
