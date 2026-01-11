@@ -1,0 +1,113 @@
+---
+import DecorativeStrip from './DecorativeStrip.astro';
+
+// Pola Kiri: [Gajah, Geo]
+const leftBasePattern = [
+    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.png' },
+    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.png' },
+];
+
+// Pola Kanan: [Geo, Gajah]
+const rightBasePattern = [
+    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.png' },
+    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.png' },
+];
+
+const repeatedLeft = Array(15).fill(leftBasePattern).flat();
+const repeatedRight = Array(15).fill(rightBasePattern).flat();
+
+// Ukuran Motif (Gajah/Geo)
+const commonSize = "h-10 md:h-14 lg:h-20 w-auto object-contain drop-shadow-md shrink-0";
+---
+
+<header class="relative w-full bg-[#120f0d] text-[#f3eedc] pt-6 pb-6 md:pt-10 md:pb-8 overflow-hidden border-b-4 border-[#f0c65c]">
+    
+    <div class="flex flex-col w-full gap-4 md:gap-8">
+        
+        <div class="flex items-end justify-center w-full px-0 gap-1 md:gap-2 lg:gap-3 overflow-hidden relative">
+            
+            <div class="flex-1 flex justify-end overflow-hidden pb-1">
+                <div class="flex justify-end gap-2 md:gap-3 items-end w-max">
+                    {repeatedLeft.map((item) => (
+                        <img 
+                            src={item.src} 
+                            class={`
+                                ${commonSize}
+                                ${item.type === 'elephant' ? 'transform -scale-x-100' : ''} 
+                            `}
+                        />
+                     ))}
+                </div>
+            </div>
+
+            <img 
+                src="/Imagery/lampung_tapis_elephant_motif_traditional.png" 
+                class={`${commonSize} transform -scale-x-100 mb-0 z-10`} 
+                alt="Gajah Kiri"
+            >
+
+            <div class="relative z-20 mx-2 md:mx-6 shrink-0">
+                <img 
+                    src="/Imagery/lampung_siger_traditional.png" 
+                    alt="Siger Lampung" 
+                    class="h-20 md:h-28 lg:h-32 w-auto object-contain drop-shadow-2xl filter brightness-110"
+                />
+            </div>
+
+            <img 
+                src="/Imagery/lampung_tapis_elephant_motif_traditional.png" 
+                class={`${commonSize} mb-0 z-10`} 
+                alt="Gajah Kanan"
+            >
+
+            <div class="flex-1 flex justify-start overflow-hidden pb-1">
+                <div class="flex justify-start gap-2 md:gap-3 items-end w-max">
+                    {repeatedRight.map((item) => (
+                        <img 
+                            src={item.src} 
+                            class={`${commonSize}`}
+                        />
+                     ))}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w-full flex items-center justify-between mt-2 md:mt-0 relative px-2 md:px-0">
+            
+            <div class="hidden md:flex w-[30%] justify-end pr-4 overflow-hidden">
+                 <div class="transform scale-x-[-1]">
+                     <DecorativeStrip />
+                 </div>
+            </div>
+
+            <div class="text-center w-full md:w-[40%] z-10 shrink-0 mx-auto">
+                <h2 class="text-[#f3eedc] text-xs md:text-sm tracking-[0.3em] font-serif mb-2 uppercase opacity-90">
+                    Selamat Datang di Website Resmi
+                </h2>
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-[#f3eedc] tracking-wide uppercase leading-none font-serif drop-shadow-xl py-2">
+                    Desa Sukadana Ilir
+                </h1>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-3 mt-3">
+                    <div class="hidden md:block h-[1px] w-12 bg-[#f0c65c]"></div>
+                    <p class="text-[#f0c65c] text-[0.7rem] md:text-sm lg:text-base tracking-widest uppercase font-serif font-bold">
+                        Kecamatan Bunga Mayang <span class="hidden md:inline mx-2">&bull;</span> <br class="md:hidden"> Kabupaten Lampung Utara
+                    </p>
+                    <div class="hidden md:block h-[1px] w-12 bg-[#f0c65c]"></div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex w-[30%] pl-4 overflow-hidden">
+                <DecorativeStrip />
+            </div>
+
+        </div>
+
+        <div class="md:hidden w-full overflow-hidden mt-4 px-4 flex justify-center">
+            <div class="scale-90 origin-top">
+                <DecorativeStrip />
+            </div>
+        </div>
+
+    </div>
+</header>

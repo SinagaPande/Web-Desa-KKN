@@ -1,0 +1,66 @@
+---
+const menuItems = [
+  "Beranda",
+  "Pemerintahan Desa",
+  "Pertanian Desa",
+  "Pendidikan",
+  "Keagamaan",
+  "Program & Kegiatan",
+  "Informasi"
+];
+---
+
+<nav class="w-full bg-[#f3eedc] shadow-lg py-0 md:hidden">
+  <div class="max-w-7xl mx-auto px-4">
+    
+    <div class="flex items-center justify-center h-14 overflow-x-auto no-scrollbar">
+      <div class="flex space-x-1 px-2">
+        {menuItems.map((item, index) => (
+          <a
+            href="#"
+            class={`
+                px-4 py-1.5 rounded-full text-xs
+                font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap
+                ${index === 0 
+                    ? 'bg-[#a68a64] text-white shadow-md' 
+                    : 'text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5'
+                }
+            `}
+          >
+            {item}
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<nav class="sticky top-0 z-50 w-full bg-[#f3eedc] border-b-2 border-[#d4cbb8] shadow-sm hidden md:block">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-center h-16 md:h-20">
+      <div class="hidden md:flex w-full justify-center">
+        <div class="flex space-x-1 lg:space-x-4">
+          {menuItems.map((item) => (
+            <a
+              href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+              class="text-[#2d2520] hover:text-[#f0c65c] hover:bg-[#2d2520] px-3 py-2 rounded-sm text-sm lg:text-base font-bold uppercase tracking-wider transition-colors duration-300"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

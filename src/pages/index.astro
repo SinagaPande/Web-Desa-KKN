@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import SectionPlaceholder from '../components/SectionPlaceholder.astro';
+---
+
+<Layout title="Desa Sukadana Ilir - Lampung Utara">
+	
+	<main>
+        <Hero />
+
+        <div class="sticky top-0 z-50">
+			<Navbar />
+		</div>
+
+        <SectionPlaceholder id="beranda" title="Beranda" />
+		<SectionPlaceholder id="pemerintahan-desa" title="Pemerintahan Desa" dark={true} />
+		<SectionPlaceholder id="pertanian-desa" title="Pertanian Desa" />
+		<SectionPlaceholder id="pendidikan" title="Pendidikan" dark={true} />
+		<SectionPlaceholder id="keagamaan" title="Keagamaan" />
+		<SectionPlaceholder id="program-&-kegiatan" title="Program & Kegiatan" dark={true} />
+		<SectionPlaceholder id="informasi" title="Informasi" />
+	</main>
+
+	<footer class="bg-black text-lampung-gold py-10 text-center border-t-4 border-lampung-gold">
+		<p class="text-xs text-stone-500">© 2026 KKN ITERA & Desa Sukadana Ilir.</p>
+	</footer>
+
+</Layout>
