@@ -1,113 +1,104 @@
 ---
 import DecorativeStrip from './DecorativeStrip.astro';
 
-// Pola Kiri: [Gajah, Geo]
-const leftBasePattern = [
-    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.webp' },
-    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.webp' },
+// Daftar Gambar Background
+const backgrounds = [
+    "/Imagery/sugarcane_bg.webp",  // Gambar 1
+    "/Imagery/sugarcane_bg2.webp"  // Gambar 2
 ];
-
-// Pola Kanan: [Geo, Gajah]
-const rightBasePattern = [
-    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.webp' },
-    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.webp' },
-];
-
-const repeatedLeft = Array(15).fill(leftBasePattern).flat();
-const repeatedRight = Array(15).fill(rightBasePattern).flat();
-
-// Ukuran Motif (Gajah/Geo)
-const commonSize = "h-10 md:h-14 lg:h-20 w-auto object-contain drop-shadow-md shrink-0";
 ---
 
-<header class="relative w-full bg-[#120f0d] text-[#f3eedc] pt-6 pb-6 md:pt-10 md:pb-8 overflow-hidden border-b-4 border-[#f0c65c]">
+<header class="relative w-full h-[85vh] md:h-screen overflow-hidden flex flex-col items-center justify-center border-b-4 border-lampung-gold group">
     
-    <div class="flex flex-col w-full gap-4 md:gap-8">
+    <div class="absolute inset-0 w-full h-full z-0">
+        {backgrounds.map((bg, index) => (
+            <img 
+                src={bg} 
+                alt={`Background ${index + 1}`} 
+                class={`
+                    absolute inset-0 w-full h-full object-cover object-center 
+                    transition-opacity duration-[2000ms] ease-in-out
+                    ${index === 0 ? 'opacity-100' : 'opacity-0'} 
+                    bg-slide
+                `}
+                data-index={index}
+            />
+        ))}
+
+        <div class="absolute inset-0 bg-gradient-to-b from-lampung-dark/90 via-lampung-dark/60 to-lampung-dark/90 z-10"></div>
         
-        <div class="flex items-end justify-center w-full px-0 gap-1 md:gap-2 lg:gap-3 overflow-hidden relative">
-            
-            <div class="flex-1 flex justify-end overflow-hidden pb-1">
-                <div class="flex justify-end gap-2 md:gap-3 items-end w-max">
-                    {repeatedLeft.map((item) => (
-                        <img 
-                            src={item.src} 
-                            class={`
-                                ${commonSize}
-                                ${item.type === 'elephant' ? 'transform -scale-x-100' : ''} 
-                            `}
-                        />
-                     ))}
-                </div>
-            </div>
-
-            <img 
-                src="/Imagery/lampung_tapis_elephant_motif_traditional.webp" 
-                class={`${commonSize} transform -scale-x-100 mb-0 z-10`} 
-                alt="Gajah Kiri"
-            >
-
-            <div class="relative z-20 mx-2 md:mx-6 shrink-0">
-                <img 
-                    src="/Imagery/lampung_siger_traditional.webp" 
-                    alt="Siger Lampung" 
-                    class="h-20 md:h-32 lg:h-36 w-auto object-contain drop-shadow-2xl filter brightness-110"
-                />
-            </div>
-
-            <img 
-                src="/Imagery/lampung_tapis_elephant_motif_traditional.webp" 
-                class={`${commonSize} mb-0 z-10`} 
-                alt="Gajah Kanan"
-            >
-
-            <div class="flex-1 flex justify-start overflow-hidden pb-1">
-                <div class="flex justify-start gap-2 md:gap-3 items-end w-max">
-                    {repeatedRight.map((item) => (
-                        <img 
-                            src={item.src} 
-                            class={`${commonSize}`}
-                        />
-                     ))}
-                </div>
-            </div>
-
-        </div>
-
-        <div class="w-full flex items-center justify-between mt-2 md:mt-0 relative px-2 md:px-0">
-            
-            <div class="hidden md:flex w-[30%] justify-end pr-4 overflow-hidden">
-                 <div class="transform scale-x-[-1]">
-                     <DecorativeStrip />
-                 </div>
-            </div>
-
-            <div class="text-center w-full md:w-[40%] z-10 shrink-0 mx-auto">
-                <h2 class="text-[#f3eedc] text-xs md:text-sm tracking-[0.3em] font-serif mb-2 uppercase opacity-90">
-                    Selamat Datang di Website Resmi
-                </h2>
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-[#f3eedc] tracking-wide uppercase leading-none font-serif drop-shadow-xl py-2">
-                    Desa <br /> Sukadana Ilir
-                </h1>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-3 mt-3">
-                    <div class="hidden md:block h-[1px] w-12 bg-[#f0c65c]"></div>
-                    <p class="text-[#f0c65c] text-[0.7rem] md:text-sm lg:text-base tracking-widest uppercase font-serif font-bold">
-                        Kecamatan Bunga Mayang <span class="hidden md:inline mx-2">&bull;</span> <br class="md:hidden"> Kabupaten Lampung Utara
-                    </p>
-                    <div class="hidden md:block h-[1px] w-12 bg-[#f0c65c]"></div>
-                </div>
-            </div>
-
-            <div class="hidden md:flex w-[30%] pl-4 overflow-hidden">
-                <DecorativeStrip />
-            </div>
-
-        </div>
-
-        <div class="md:hidden w-full overflow-hidden mt-4 px-4 flex justify-center">
-            <div class="scale-90 origin-top">
-                <DecorativeStrip />
-            </div>
-        </div>
-
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/batik-embossed.png')] z-10"></div>
     </div>
+
+    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-4 md:gap-6 mt-10">
+        
+        <div class="relative animate-float">
+            <img 
+                src="/Imagery/lampung_siger_traditional.webp" 
+                alt="Siger Lampung" 
+                class="h-24 md:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_10px_20px_rgba(240,198,92,0.5)] filter brightness-110"
+            />
+        </div>
+
+        <div class="space-y-2 md:space-y-4">
+            <h2 class="text-lampung-bone text-[10px] md:text-sm tracking-[0.4em] font-serif uppercase opacity-90 mb-2 drop-shadow-md">
+                Selamat Datang di Website Resmi
+            </h2>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-lampung-bone via-white to-lampung-bone tracking-wide uppercase leading-tight font-serif drop-shadow-2xl">
+                Desa <br class="md:hidden" /> Sukadana Ilir
+            </h1>
+
+            <div class="flex items-center justify-center gap-4 mt-4">
+                <span class="h-[1px] w-8 md:w-20 bg-lampung-gold/70 shadow-[0_0_10px_#f0c65c]"></span>
+                <p class="text-lampung-gold text-xs md:text-base tracking-widest uppercase font-serif font-bold drop-shadow-lg">
+                    Kec. Bunga Mayang • Lampung Utara
+                </p>
+                <span class="h-[1px] w-8 md:w-20 bg-lampung-gold/70 shadow-[0_0_10px_#f0c65c]"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-0 w-full z-30 bg-gradient-to-t from-black via-black/60 to-transparent pt-12 pb-4">
+        <div class="opacity-100 scale-90 md:scale-100">
+             <DecorativeStrip />
+        </div>
+    </div>
+
 </header>
+
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+</style>
+
+<script>
+    // Script Slideshow Sederhana
+    const slides = document.querySelectorAll('.bg-slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    const intervalTime = 5000; // 5000ms = 5 detik (Ubah ke 2000 jika ingin 2 detik)
+
+    function nextSlide() {
+        // Hilangkan opacity slide saat ini
+        slides[currentSlide].classList.remove('opacity-100');
+        slides[currentSlide].classList.add('opacity-0');
+
+        // Pindah ke slide berikutnya (looping)
+        currentSlide = (currentSlide + 1) % totalSlides;
+
+        // Munculkan slide baru
+        slides[currentSlide].classList.remove('opacity-0');
+        slides[currentSlide].classList.add('opacity-100');
+    }
+
+    // Jalankan timer
+    if (slides.length > 1) {
+        setInterval(nextSlide, intervalTime);
+    }
+</script>

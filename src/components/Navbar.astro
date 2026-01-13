@@ -11,13 +11,16 @@ const menuItems = [
 ];
 ---
 
-<nav id="mobile-initial-nav" class="w-full bg-[#f3eedc] py-8 border-b-2 border-[#d4cbb8] md:hidden">
-  <div class="max-w-md mx-auto px-6">
-    <div class="flex flex-col items-stretch space-y-3">
+<nav id="mobile-initial-nav" class="w-full bg-lampung-bone py-8 border-b-2 border-[#d4cbb8] md:hidden relative z-30">
+  <div class="max-w-md mx-auto px-4">
+    <div class="text-center mb-4">
+      <span class="text-xs font-serif uppercase tracking-widest text-stone-500">Menu Navigasi</span>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
       {menuItems.map((item) => (
         <a
           href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-          class="text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-300 w-full text-center border border-transparent hover:border-[#d4cbb8]"
+          class="flex items-center justify-center text-center bg-white border border-[#d4cbb8] hover:border-lampung-gold hover:bg-lampung-dark hover:text-lampung-gold text-[#2d2520] px-2 py-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-sm active:scale-95"
         >
           {item}
         </a>
@@ -26,65 +29,51 @@ const menuItems = [
   </div>
 </nav>
 
-<div id="mobile-sticky-nav" class="fixed top-0 left-0 right-0 z-50 transform -translate-y-full transition-transform duration-300 shadow-lg md:hidden">
-  <nav class="w-full bg-[#f3eedc] py-0 border-b border-[#d4cbb8]">
+<div id="mobile-sticky-nav" class="fixed top-0 left-0 right-0 z-50 transform -translate-y-[120%] transition-transform duration-300 md:hidden">
+  <nav class="w-full bg-[#f3eedc]/95 backdrop-blur-md border-b border-[#d4cbb8] shadow-lg py-3">
     <div class="w-full">
-      
-      <div class="flex items-center justify-start h-14 overflow-x-auto no-scrollbar px-4">
-        <div class="flex space-x-2 whitespace-nowrap">
-          {menuItems.map((item, index) => (
-            <a
-              href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-              class={`
-                  px-4 py-1.5 rounded-full text-xs
-                  font-bold uppercase tracking-wider transition-all duration-300
-                  text-[#2d2520] hover:text-[#a68a64] hover:bg-[#2d2520]/5
-              `}
-            >
-              {item}
-            </a>
-          ))}
-          <div class="w-2 flex-shrink-0"></div>
-        </div>
+      <div class="flex items-center justify-start overflow-x-auto no-scrollbar px-4 gap-2">
+        {menuItems.map((item) => (
+          <a
+            href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+            class="whitespace-nowrap px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white border border-[#d4cbb8] text-[#2d2520] active:bg-lampung-dark active:text-lampung-gold transition-colors shadow-sm"
+          >
+            {item}
+          </a>
+        ))}
+        <div class="w-4 flex-shrink-0"></div>
       </div>
-
     </div>
   </nav>
 </div>
 
-<nav class="w-full bg-[#f3eedc] border-b-2 border-[#d4cbb8] shadow-sm hidden md:block">
+<nav class="hidden md:block w-full bg-[#f3eedc] border-b border-[#d4cbb8] shadow-sm sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-center h-16 md:h-20">
-      <div class="hidden md:flex w-full justify-center">
-        <div class="flex space-x-1 lg:space-x-4">
-          {menuItems.map((item) => (
-            <a
-              href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-              class="text-[#2d2520] hover:text-[#f0c65c] hover:bg-[#2d2520] px-3 py-2 rounded-sm text-sm lg:text-base font-bold uppercase tracking-wider transition-colors duration-300"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
+    <div class="flex items-center justify-center h-24"> <div class="flex items-center justify-center space-x-4 lg:space-x-8 w-full">
+        {menuItems.map((item) => (
+          <a
+            href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+            class="group relative text-[#2d2520] py-2 whitespace-nowrap text-sm lg:text-base font-bold uppercase tracking-widest transition-colors duration-300"
+          >
+            {/* Text Link */}
+            <span class="relative z-10 group-hover:text-black">{item}</span>
+            
+            {/* Animated Underline Effect */}
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#f0c65c] transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        ))}
       </div>
+
     </div>
   </div>
 </nav>
 
 <style>
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
 <script>
-  // Script Transisi Mobile Nav
   document.addEventListener('DOMContentLoaded', () => {
     const mobileInitialNav = document.getElementById('mobile-initial-nav');
     const mobileStickyNav = document.getElementById('mobile-sticky-nav');
@@ -92,15 +81,15 @@ const menuItems = [
     if (mobileInitialNav && mobileStickyNav) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          // Trigger saat Vertical Nav (Initial) keluar dari layar ke arah atas
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-            mobileStickyNav.classList.remove('-translate-y-full');
+             mobileStickyNav.classList.remove('-translate-y-[120%]');
           } else {
-            mobileStickyNav.classList.add('-translate-y-full');
+            mobileStickyNav.classList.add('-translate-y-[120%]');
           }
         });
       }, {
-        threshold: 0 
+        threshold: 0,
+        rootMargin: "0px 0px -100% 0px" 
       });
 
       observer.observe(mobileInitialNav);

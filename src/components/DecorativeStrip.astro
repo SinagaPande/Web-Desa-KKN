@@ -1,21 +1,69 @@
 ---
-// Menggunakan motif logo yang lebih variatif agar tidak monoton
-const logos = [
+// src/components/DecorativeStrip.astro
+
+// Motif logo dasar
+const baseLogos = [
     "/Imagery/lampung_logo_1.webp",
     "/Imagery/lampung_logo_2.webp",
     "/Imagery/lampung_logo_3.webp"
 ];
 
-// Repetisi diperbanyak
-const repeatedLogos = [...logos, ...logos, ...logos, ...logos]; 
+// KITA BUAT 1 BLOK PANJANG (Misal diulang 4 kali agar cukup panjang di layar besar)
+// Total 12 logo dalam satu blok base.
+const singleBlock = [...baseLogos, ...baseLogos, ...baseLogos, ...baseLogos];
 ---
 
-<div class="flex flex-row items-center gap-2 md:gap-6 opacity-80 w-full overflow-hidden">
-    {repeatedLogos.map((src) => (
-        <img 
-            src={src} 
-            alt="Motif Lampung" 
-            class="h-10 md:h-16 lg:h-20 w-auto object-contain flex-shrink-0 drop-shadow-md grayscale-[30%] hover:grayscale-0 transition-all"
-        />
-    ))}
+<div 
+    class="w-full relative overflow-hidden"
+    style="-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);"
+>
+    <div class="flex w-max items-center gap-6 animate-scroll-left group hover:[animation-play-state:paused]">
+        
+        <div class="flex items-center gap-6 shrink-0">
+            {singleBlock.map((src, index) => (
+                <img 
+                    src={src} 
+                    alt={`Motif Lampung A-${index}`} 
+                    class="h-10 md:h-16 lg:h-20 w-auto object-contain drop-shadow-md grayscale-[30%] group-hover:grayscale-0 transition-all duration-300"
+                />
+            ))}
+        </div>
+
+        <div class="flex items-center gap-6 shrink-0 aria-hidden:true">
+            {singleBlock.map((src, index) => (
+                <img 
+                    src={src} 
+                    alt={`Motif Lampung B-${index}`} 
+                    class="h-10 md:h-16 lg:h-20 w-auto object-contain drop-shadow-md grayscale-[30%] group-hover:grayscale-0 transition-all duration-300"
+                />
+            ))}
+        </div>
+
+    </div>
 </div>
+
+<style>
+    /* Definisi Animasi Keyframe */
+    @keyframes scroll-left {
+        0% {
+            /* Posisi awal */
+            transform: translateX(0);
+        }
+        100% {
+            /* Posisi akhir: Bergerak ke kiri sejauh -50% */
+            /* Kenapa -50%? Karena total lebarnya adalah 2 set (100%). 
+               Kita ingin menggeser tepat SATU SET ke kiri, jadi setengahnya. */
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Class untuk menjalankan animasi */
+    .animate-scroll-left {
+        /* Durasi 40s agar gerakannya pelan dan elegan. 
+           Ubah angkanya jika ingin lebih cepat/lambat.
+           linear: Kecepatan konstan.
+           infinite: Berulang terus menerus.
+        */
+        animation: scroll-left 40s linear infinite;
+    }
+</style>
