@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import SectionPlaceholder from '../components/SectionPlaceholder.astro';
+// 1. Import komponen baru
+import BerandaSection from '../components/BerandaSection.astro';
 ---
 
 <Layout title="Desa Sukadana Ilir - Lampung Utara">
@@ -10,12 +12,15 @@ import SectionPlaceholder from '../components/SectionPlaceholder.astro';
 	<main>
         <Hero />
 
-        <div class="w-full relative z-40 md:sticky md:top-0">
+<div class="w-full relative z-40 md:sticky md:top-0">
 			<Navbar />
 		</div>
 
-        <SectionPlaceholder id="beranda" title="Beranda" />
-		<SectionPlaceholder id="pemerintahan-desa" title="Pemerintahan Desa" dark={true} />
+<div id="beranda-desa" class="scroll-mt-24 md:scroll-mt-28">
+            <BerandaSection />
+        </div>
+
+        <SectionPlaceholder id="pemerintahan-desa" title="Pemerintahan Desa" dark={true} />
 		<SectionPlaceholder id="pertanian-desa" title="Pertanian Desa" />
 		<SectionPlaceholder id="pendidikan" title="Pendidikan" dark={true} />
 		<SectionPlaceholder id="keagamaan" title="Keagamaan" />

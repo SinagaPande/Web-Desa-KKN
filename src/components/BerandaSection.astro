@@ -1,0 +1,87 @@
+---
+// src/components/BerandaSection.astro
+---
+
+<div class="bg-lampung-bone text-lampung-dark font-serif w-full">
+  
+  <section class="py-10 px-6 md:py-16 bg-white border-b border-gray-200 text-center">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-base md:text-xl font-bold leading-relaxed tracking-wide md:text-justify md:text-last-center text-stone-800">
+        Sukadana Ilir merupakan sebuah desa yang terletak di Kecamatan Bunga Mayang, Kabupaten Lampung Utara, Provinsi Lampung, Indonesia. Desa ini memiliki karakteristik wilayah agraris, dengan sektor pertanian sebagai mata pencaharian utama masyarakat. Komoditas unggulan desa didominasi oleh tanaman tebu, yang kemudian disusul oleh singkong dan kelapa sawit sebagai hasil pertanian pendukung.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-8 px-4 md:py-16 bg-stone-100 flex justify-center">
+    <div class="w-full max-w-[1400px] flex flex-col items-start md:flex-row md:items-stretch gap-8">
+      
+      <div class="w-full md:flex-1 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-auto md:h-full">
+        <img src="/Imagery/lampung_tapis_geometric_motif_traditional_top.webp" alt="Ornamen Atas" class="w-full h-auto max-h-[50px] md:max-h-none object-cover block" />
+        
+        <div class="p-4 md:p-12 flex-grow flex flex-col items-center md:justify-center relative z-10">
+          <h2 class="text-2xl md:text-4xl text-lampung-gold font-bold uppercase tracking-widest mb-4 md:mb-6 text-center border-b-4 border-lampung-bone pb-2 w-fit">
+            VISI
+          </h2>
+          
+          <div class="bg-[#fffdf5] border border-lampung-bone rounded-lg p-4 md:p-5 w-full text-center">
+            <p class="text-base md:text-xl font-bold leading-relaxed text-stone-800 tracking-wide font-serif">
+              "TERWUJUDNYA KELUARGA YANG BERIMAN DAN BERTAQWA KEPADA TUHAN YME BERAKHLAK MULIA DAN BERBUDI LUHUR, SEHAT SEJAHTERA, MAJU MANDIRI, KESETARAAN DAN KEADILAN GENDER SERTA KESADARAN HUKUM DAN LINGKUNGAN"
+            </p>
+          </div>
+        </div>
+
+        <img src="/Imagery/lampung_tapis_geometric_motif_traditional_bottom.webp" alt="Ornamen Bawah" class="w-full h-auto max-h-[50px] md:max-h-none object-cover block mt-auto" />
+      </div>
+
+      <div class="w-full md:flex-1 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-auto md:h-full">
+        <img src="/Imagery/lampung_tapis_geometric_motif_traditional_top.webp" alt="Ornamen Atas" class="w-full h-auto max-h-[50px] md:max-h-none object-cover block" />
+        
+        <div class="p-4 md:p-12 flex-grow flex flex-col items-center justify-start relative z-10">
+          <h2 class="text-2xl md:text-4xl text-lampung-gold font-bold uppercase tracking-widest mb-4 md:mb-6 text-center border-b-4 border-lampung-bone pb-2 w-fit">
+            MISI
+          </h2>
+          
+          <div class="w-full flex flex-col gap-3 md:gap-4 font-serif">
+            {[
+              { id: 'A', text: 'Meningkatkan mental spiritual, perilaku hidup dengan menghayati dan mengamalkan Pancasila serta meningkatkan pelaksanaan hak dan kewajiban sesuai dengan Hak Asasi Manusia, demokrasi, meningkatkan kestiakawanan sosial dan kegotong royongan serta pembentukkan watak bangsa yang selaras, serasi dan seimbang.' },
+              { id: 'B', text: 'Meningkatkan pendidikan dan keterampilan yang diperlukan, dalam upaya mencerdaskan kehidupan bangsa serta pendapatan keluarga.' },
+              { id: 'C', text: 'Meningkatkan kualitas dan kuantitas pangan keluarga, serta upaya peningkatan pemanfaatan pekarangan melalui Halaman Asri Teratur, Indah dan Nyaman (HATINYA) PKK, sandang dan perumahan serta tata laksana rumah tangga yang sehat.' },
+              { id: 'D', text: 'Meningkatkan derajat kesehatan, pelestarian lingkungan hidup, berencana dalam semua aspek kehidupan perencanaan ekonomi keluarga dengan membiasakan menabung.' },
+              { id: 'E', text: 'Meningkatkan pengelolaan gerakan PKK baik kegiatan pengorganisasian maupun pelaksanaan program-programnya yang disesuaikan dengan situasi dan kondisi masyarakat setempat.' }
+            ].map((misi) => (
+              <div class="flex items-start bg-[#fffdf5] border border-[#eaddcf] rounded-xl p-3 md:p-4 hover:border-lampung-gold hover:bg-[#fffbf0] transition-colors duration-200">
+                <div class="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-lampung-gold text-white font-sans font-bold text-base md:text-lg rounded-full flex items-center justify-center mr-3 md:mr-4 leading-none pt-[2px]">
+                  {misi.id}
+                </div>
+                <div class="text-sm md:text-base text-stone-800 leading-relaxed text-left mt-[2px]">
+                  {misi.text}
+                </div>
+              </div>
+            ))}
+          </div> 
+        </div>
+
+        <img src="/Imagery/lampung_tapis_geometric_motif_traditional_bottom.webp" alt="Ornamen Bawah" class="w-full h-auto max-h-[50px] md:max-h-none object-cover block mt-auto" />
+      </div>
+
+    </div>
+  </section>
+
+  <section class="py-8 px-4 md:py-12 bg-white flex flex-col items-center pb-16">
+    <h2 class="text-2xl md:text-4xl text-lampung-gold font-bold uppercase tracking-widest mb-6 text-center border-b-4 border-lampung-bone pb-2 w-fit">
+      Lokasi Desa
+    </h2>
+    
+    <div class="w-full h-[300px] md:h-[450px] max-w-[1100px] mx-auto border-[6px] border-lampung-gold rounded-xl p-1 bg-[#f4f0e6] shadow-xl">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63591.46463964179!2d104.80287413663996!3d-4.561338870191836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e38b3c8c973a87d%3A0x9d36181e19488426!2sSukadana%20Ilir%2C%20Kec.%20Bunga%20Mayang%2C%20Kabupaten%20Lampung%20Utara%2C%20Lampung!5e0!3m2!1sid!2sid!4v1705119000000!5m2!1sid!2sid"
+        class="w-full h-full rounded-lg border-none bg-gray-200"
+        allowfullscreen="" 
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Peta Lokasi Desa">
+      </iframe>
+    </div>
+  </section>
+  
+</div>

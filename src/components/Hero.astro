@@ -3,14 +3,14 @@ import DecorativeStrip from './DecorativeStrip.astro';
 
 // Pola Kiri: [Gajah, Geo]
 const leftBasePattern = [
-    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.png' },
-    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.png' },
+    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.webp' },
+    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.webp' },
 ];
 
 // Pola Kanan: [Geo, Gajah]
 const rightBasePattern = [
-    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.png' },
-    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.png' },
+    { type: 'geo', src: '/Imagery/lampung_tapis_geometric_motif_variant.webp' },
+    { type: 'elephant', src: '/Imagery/lampung_tapis_elephant_motif_traditional.webp' },
 ];
 
 const repeatedLeft = Array(15).fill(leftBasePattern).flat();
@@ -41,21 +41,21 @@ const commonSize = "h-10 md:h-14 lg:h-20 w-auto object-contain drop-shadow-md sh
             </div>
 
             <img 
-                src="/Imagery/lampung_tapis_elephant_motif_traditional.png" 
+                src="/Imagery/lampung_tapis_elephant_motif_traditional.webp" 
                 class={`${commonSize} transform -scale-x-100 mb-0 z-10`} 
                 alt="Gajah Kiri"
             >
 
             <div class="relative z-20 mx-2 md:mx-6 shrink-0">
                 <img 
-                    src="/Imagery/lampung_siger_traditional.png" 
+                    src="/Imagery/lampung_siger_traditional.webp" 
                     alt="Siger Lampung" 
                     class="h-20 md:h-32 lg:h-36 w-auto object-contain drop-shadow-2xl filter brightness-110"
                 />
             </div>
 
             <img 
-                src="/Imagery/lampung_tapis_elephant_motif_traditional.png" 
+                src="/Imagery/lampung_tapis_elephant_motif_traditional.webp" 
                 class={`${commonSize} mb-0 z-10`} 
                 alt="Gajah Kanan"
             >
