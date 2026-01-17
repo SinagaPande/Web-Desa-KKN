@@ -1,13 +1,15 @@
 ---
+// src/components/Navbar.astro
+
 const menuItems = [
-  "Beranda Desa",
-  "Pemerintahan Desa",
-  "Data Desa",
-  "Pertanian Desa",
-  "Pendidikan",
-  "Keagamaan",
-  "Program & Kegiatan",
-  "Informasi"
+  { label: "Beranda Desa", href: "/#beranda-desa" },
+  { label: "Data Desa", href: "/#data-desa" }, // Diubah jadi # (anchor)
+  { label: "Pemerintahan Desa", href: "/#pemerintahan-desa" },
+  { label: "Pertanian Desa", href: "/#pertanian-desa" },
+  { label: "Pendidikan", href: "/#pendidikan" },
+  { label: "Keagamaan", href: "/#keagamaan" },
+  { label: "Program & Kegiatan", href: "/#program-&-kegiatan" },
+  { label: "Informasi", href: "/#informasi" }
 ];
 ---
 
@@ -19,10 +21,10 @@ const menuItems = [
     <div class="grid grid-cols-2 gap-3">
       {menuItems.map((item) => (
         <a
-          href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+          href={item.href}
           class="flex items-center justify-center text-center bg-white border border-[#d4cbb8] hover:border-lampung-gold hover:bg-lampung-dark hover:text-lampung-gold text-[#2d2520] px-2 py-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-sm active:scale-95"
         >
-          {item}
+          {item.label}
         </a>
       ))}
     </div>
@@ -35,10 +37,10 @@ const menuItems = [
       <div class="flex items-center justify-start overflow-x-auto no-scrollbar px-4 gap-2">
         {menuItems.map((item) => (
           <a
-            href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+            href={item.href}
             class="whitespace-nowrap px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white border border-[#d4cbb8] text-[#2d2520] active:bg-lampung-dark active:text-lampung-gold transition-colors shadow-sm"
           >
-            {item}
+            {item.label}
           </a>
         ))}
         <div class="w-4 flex-shrink-0"></div>
@@ -49,21 +51,21 @@ const menuItems = [
 
 <nav class="hidden md:block w-full bg-[#f3eedc] border-b border-[#d4cbb8] shadow-sm sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-center h-24"> <div class="flex items-center justify-center space-x-4 lg:space-x-8 w-full">
+    <div class="flex items-center justify-center h-24"> 
+      <div class="flex items-center justify-center space-x-4 lg:space-x-8 w-full">
         {menuItems.map((item) => (
           <a
-            href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+            href={item.href}
             class="group relative text-[#2d2520] py-2 whitespace-nowrap text-sm lg:text-base font-bold uppercase tracking-widest transition-colors duration-300"
           >
             {/* Text Link */}
-            <span class="relative z-10 group-hover:text-black">{item}</span>
+            <span class="relative z-10 group-hover:text-black">{item.label}</span>
             
             {/* Animated Underline Effect */}
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#f0c65c] transition-all duration-300 group-hover:w-full"></span>
           </a>
         ))}
       </div>
-
     </div>
   </div>
 </nav>
@@ -84,7 +86,7 @@ const menuItems = [
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
              mobileStickyNav.classList.remove('-translate-y-[120%]');
           } else {
-            mobileStickyNav.classList.add('-translate-y-[120%]');
+             mobileStickyNav.classList.add('-translate-y-[120%]');
           }
         });
       }, {
