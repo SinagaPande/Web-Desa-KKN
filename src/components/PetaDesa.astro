@@ -1,0 +1,122 @@
+---
+// src/components/PetaDesa.astro
+import 'leaflet/dist/leaflet.css';
+---
+
+<section id="peta-desa" class="w-full py-12 px-4 bg-slate-50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Peta Wilayah Desa</h2>
+            <p class="text-gray-600 mt-2">Batas wilayah dan lokasi penting Desa Sukadana Ilir</p>
+        </div>
+        
+        <div class="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 z-0">
+            <div id="map" class="w-full h-full z-0"></div>
+            
+            <div id="map-loading" class="absolute inset-0 bg-gray-50 flex flex-col items-center justify-center z-[1000]">
+                <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+                <span class="text-gray-500 font-medium">Memuat Peta Digital...</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    import L from 'leaflet';
+
+    async function initMap() {
+        const mapElement = document.getElementById('map');
+        if (!mapElement) return;
+
+        // --- 1. MEMBUAT OPSI LAYER (PETA DASAR) ---
+        
+        // Opsi A: Peta Jalan (OpenStreetMap) - Bagus untuk nama jalan
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19
+        });
+
+        // Opsi B: Peta Satelit (Esri World Imagery) - Bagus untuk melihat lahan/sawah
+        const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 19
+        });
+
+        // Inisialisasi Peta dengan "Satelit" sebagai default
+        const map = L.map('map', {
+            center: [-4.630, 104.910],
+            zoom: 13,
+            layers: [satelliteLayer] // <-- Set default tampilan di sini
+        });
+
+        // Menambahkan Kontrol Layer (Tombol ganti peta di pojok kanan atas)
+        const baseMaps = {
+            "Satelit (Kebun/Lahan)": satelliteLayer,
+            "Peta Jalan (Nama Jalan)": osmLayer
+        };
+        L.control.layers(baseMaps).addTo(map);
+
+
+        // --- 2. LOAD FILE KML ---
+        try {
+            const response = await fetch('/peta/peta-sukadana_ilir.kml');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            const kmlText = await response.text();
+            const parser = new DOMParser();
+            const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
+
+            // Import Plugin KML
+            // @ts-ignore
+            await import('https://unpkg.com/leaflet-kml@latest/L.KML.js');
+
+            // Render KML
+            // @ts-ignore
+            const track = new L.KML(kmlDoc);
+            map.addLayer(track);
+
+            // --- 3. AUTO ZOOM & POPUP ---
+            const bounds = track.getBounds();
+            if (bounds.isValid()) {
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
+
+            // Pastikan popup nama muncul saat diklik (Fix untuk marker)
+            track.on('click', function(e) {
+                // Leaflet KML otomatis mengurus popup, tapi ini trigger manual jika perlu
+                // console.log("Layer diklik", e); 
+            });
+
+            // Sembunyikan loading
+            const loading = document.getElementById('map-loading');
+            if(loading) {
+                loading.style.opacity = '0';
+                setTimeout(() => loading.remove(), 500);
+            }
+
+        } catch (error) {
+            console.error("Gagal memuat KML:", error);
+            const loading = document.getElementById('map-loading');
+            if(loading) loading.innerHTML = `<span class="text-red-500 font-bold">Gagal memuat peta.<br>Pastikan file KML tersedia.</span>`;
+        }
+    }
+
+    // Jalankan
+    initMap();
+</script>
+
+<style>
+    /* Agar peta tidak menutupi navbar */
+    #map {
+        isolation: isolate;
+        z-index: 1;
+    }
+    
+    /* Custom style untuk kontrol layer agar lebih terlihat */
+    :global(.leaflet-control-layers) {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        border: 2px solid #e5e7eb;
+        padding: 4px;
+    }
+</style>

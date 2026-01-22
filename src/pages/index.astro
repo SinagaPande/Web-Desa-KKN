@@ -4,14 +4,14 @@ import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import SectionPlaceholder from '../components/SectionPlaceholder.astro';
 import BerandaSection from '../components/BerandaSection.astro';
-// Import komponen baru
 import DataDesaSection from '../components/DataDesaSection.astro';
+import PetaDesa from '../components/PetaDesa.astro'; // <-- Import komponen Peta Baru
 ---
 
 <Layout title="Desa Sukadana Ilir - Lampung Utara">
 	
 	<main>
-        <Hero />
+		<Hero />
 
         <div class="w-full relative z-40 md:sticky md:top-0">
 			<Navbar />
@@ -20,6 +20,8 @@ import DataDesaSection from '../components/DataDesaSection.astro';
         <div id="beranda-desa" class="scroll-mt-24 md:scroll-mt-28">
             <BerandaSection />
         </div>
+        
+        <PetaDesa />
         
         <DataDesaSection />
 
@@ -31,8 +33,8 @@ import DataDesaSection from '../components/DataDesaSection.astro';
 		<SectionPlaceholder id="informasi" title="Informasi" />
 	</main>
 
-	<footer class="bg-black text-lampung-gold py-10 text-center border-t-4 border-lampung-gold">
-		<p class="text-xs text-stone-500">© 2026 KKN ITERA & Desa Sukadana Ilir.</p>
+	<footer class="bg-lampung-dark text-lampung-gold py-10 text-center border-t-4 border-lampung-gold font-sans">
+		<p class="text-xs opacity-80">© 2026 KKN ITERA & Desa Sukadana Ilir.</p>
 	</footer>
 
 </Layout>
