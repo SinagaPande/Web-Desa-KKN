@@ -1,0 +1,278 @@
+---
+// src/components/KomposisiLuasWilayahSection.astro
+---
+
+<section class="bg-lampung-bone py-12 px-4 md:pb-24 border-b border-[#2d2520]/10 font-sans">
+    <div class="slide-container mx-auto">
+        <header>
+            <h1>Data Komposisi Luas Wilayah</h1>
+            <p class="subtitle">Analisis Distribusi Area Lahan dan Rawa</p>
+        </header>
+
+        <div class="main-content">
+            <div class="label-group left">
+                <div class="stat-value grey">132<small>.35</small><span class="stat-unit">ha</span></div>
+                <div class="stat-name">Wilayah Lainnya</div>
+                <div class="stat-percent">(65.08%)</div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="landChart"></canvas>
+                    <div id="custom-tooltip"></div>
+                    <img src="/Imagery/Wetland.webp" class="chart-overlay-icon icon-wetland" alt="Wetland Icon">
+                    <img src="/Imagery/other_land.webp" class="chart-overlay-icon icon-other" alt="Other Icon">
+                </div>
+            </div>
+
+            <div class="label-group right">
+                <div class="stat-value green">71<small>.00</small><span class="stat-unit">ha</span></div>
+                <div class="stat-name">Rawa-Rawa</div>
+                <div class="stat-percent">(34.92%)</div>
+            </div>
+        </div>
+
+        <div class="footer-banner">
+            <div class="total-icon"><img src="/Imagery/an_area.webp" alt="Location Icon"></div>
+            <div class="total-text">Total Luas:</div>
+            <div class="total-value">203.35 ha</div>
+        </div>
+    </div>
+</section>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Logic Chart.js dibungkus agar aman
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctx = document.getElementById('landChart');
+        if(!ctx) return; // Guard clause
+
+        const context = (ctx as HTMLCanvasElement).getContext('2d');
+        const tooltipEl = document.getElementById('custom-tooltip');
+
+        if (context) {
+            new Chart(context, {
+                type: 'pie',
+                data: {
+                    labels: ['Rawa-Rawa', 'Wilayah Lainnya'],
+                    datasets: [{
+                        data: [71, 132.35],
+                        backgroundColor: ['#4CAF50', '#E0E0E0'],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 20 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    rotation: 0,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { 
+                            enabled: false,
+                            external: function(context) {
+                                const tooltip = context.tooltip;
+                                if (!tooltipEl) return;
+                                
+                                if (tooltip.opacity === 0) { tooltipEl.style.opacity = '0'; return; }
+
+                                if (tooltip.body) {
+                                    const title = tooltip.dataPoints[0].label;
+                                    const value = tooltip.dataPoints[0].raw;
+                                    tooltipEl.innerHTML = `<div>${title}</div><div style="font-size:0.8em; opacity:0.8">${value} ha</div>`;
+                                }
+
+                                const dataIndex = tooltip.dataPoints[0].dataIndex;
+                                const isMobile = window.innerWidth <= 768; 
+
+                                // Reset class
+                                tooltipEl.classList.remove('left-side', 'right-side', 'top-side', 'bottom-side');
+                                tooltipEl.style.left = 'auto'; tooltipEl.style.right = 'auto'; 
+                                tooltipEl.style.top = 'auto'; tooltipEl.style.bottom = 'auto';
+
+                                if (isMobile) {
+                                    tooltipEl.style.left = '50%'; 
+                                    if (dataIndex === 0) { // Rawa-Rawa
+                                        tooltipEl.style.top = '0';
+                                        tooltipEl.style.transform = 'translate(-50%, -120%)'; 
+                                        tooltipEl.classList.add('top-side');
+                                    } else { // Wilayah Lain
+                                        tooltipEl.style.top = '100%';
+                                        tooltipEl.style.transform = 'translate(-50%, 20%)'; 
+                                        tooltipEl.classList.add('bottom-side');
+                                    }
+                                } else {
+                                    tooltipEl.style.top = '50%'; 
+                                    if (dataIndex === 0) { // Rawa-Rawa -> KANAN
+                                        tooltipEl.style.right = '-20px';
+                                        tooltipEl.style.transform = 'translate(100%, -50%)';
+                                        tooltipEl.classList.add('right-side');
+                                    } else { // Wilayah Lain -> KIRI
+                                        tooltipEl.style.left = '-20px';
+                                        tooltipEl.style.transform = 'translate(-100%, -50%)';
+                                        tooltipEl.classList.add('left-side');
+                                    }
+                                }
+
+                                tooltipEl.style.opacity = '1';
+                            }
+                        }
+                    },
+                    layout: { padding: 20 },
+                    animation: { animateScale: true, animateRotate: true }
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    /* Scoped CSS dari file HTML asli */
+    :root {
+        --primary-green: #4CAF50;
+        --primary-grey: #E0E0E0;
+        --text-dark: #1F2937;
+        --text-light: #6B7280;
+    }
+
+    .slide-container {
+        background: #ffffff;
+        width: 100%;
+        max-width: 56rem; /* Setara max-w-4xl tailwind agar konsisten dengan section atas */
+        /* min-height: 540px; dihapus agar responsive mengikuti konten */
+        border-radius: 1rem; /* setara rounded-2xl */
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* setara shadow-xl */
+        border: 1px solid #eaddcf; /* border disamakan dengan section atas */
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+
+    header { text-align: center; margin-bottom: 30px; z-index: 2; }
+    h1 { font-family: 'Inter', sans-serif; font-size: 2rem; color: var(--text-dark); margin-bottom: 5px; font-weight: 800; letter-spacing: -0.5px; }
+    p.subtitle { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--text-light); font-weight: 500; }
+
+    .main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        position: relative;
+        z-index: 2;
+        padding: 0 40px; 
+    }
+
+    .label-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .label-group.left { text-align: right; align-items: flex-end; }
+    .label-group.right { text-align: left; align-items: flex-start; }
+
+    .stat-value { font-size: 2.5rem; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+    .stat-value small { font-size: 1.5rem; font-weight: 600; opacity: 0.7; }
+    .stat-value.green { color: var(--primary-green); }
+    .stat-value.grey { color: #9CA3AF; }
+    .stat-unit { font-size: 1rem; color: var(--text-light); font-weight: 600; margin-left: 4px; }
+    .stat-name { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-top: 8px; }
+    .stat-percent { font-size: 0.9rem; color: var(--text-light); margin-top: 4px; font-weight: 500; }
+
+    .chart-container {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 40px;
+    }
+
+    .chart-wrapper {
+        position: relative;
+        width: 340px;
+        height: 340px;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
+    }
+
+    canvas { display: block; width: 100%; height: 100%; }
+
+    .chart-overlay-icon {
+        position: absolute;
+        z-index: 10;
+        opacity: 0.95;
+        transition: transform 0.3s ease;
+        pointer-events: none;
+        filter: drop-shadow(0 0 8px rgba(255,255,255, 0.8)); 
+    }
+
+    /* Tooltip Styles */
+    #custom-tooltip {
+        opacity: 0;
+        position: absolute;
+        background: rgba(31, 41, 55, 0.95);
+        color: #fff;
+        border-radius: 8px;
+        pointer-events: none;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 100;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transform: translate(-50%, -50%); 
+        font-family: 'Inter', sans-serif;
+    }
+    
+    #custom-tooltip::after {
+        content: ""; position: absolute; border-width: 5px; border-style: solid;
+    }
+
+    /* Panah Tooltip */
+    :global(#custom-tooltip.left-side::after) {
+        top: 50%; margin-top: -5px; left: 100%; 
+        border-color: transparent transparent transparent rgba(31, 41, 55, 0.95);
+    }
+    :global(#custom-tooltip.right-side::after) {
+        top: 50%; margin-top: -5px; right: 100%; 
+        border-color: transparent rgba(31, 41, 55, 0.95) transparent transparent;
+    }
+    :global(#custom-tooltip.top-side::after) {
+        top: 100%; left: 50%; margin-left: -5px;
+        border-color: rgba(31, 41, 55, 0.95) transparent transparent transparent;
+    }
+    :global(#custom-tooltip.bottom-side::after) {
+        bottom: 100%; left: 50%; margin-left: -5px;
+        border-color: transparent transparent rgba(31, 41, 55, 0.95) transparent;
+    }
+
+    .icon-wetland { width: 80px; top: 25%; right: 18%; }
+    .icon-other { width: 85px; top: 42%; left: 15%; opacity: 0.8; }
+
+    .footer-banner {
+        margin-top: 40px; display: flex; justify-content: center; align-items: center;
+        gap: 16px; padding-top: 25px; border-top: 1px solid #f0f0f0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .total-icon img { width: 40px; height: auto; opacity: 0.9; }
+    .total-text { font-size: 1.1rem; font-weight: 600; color: var(--text-light); }
+    .total-value { font-size: 1.3rem; font-weight: 800; color: var(--text-dark); }
+
+    @media (max-width: 768px) {
+        .slide-container { height: auto; padding: 24px; }
+        .main-content { flex-direction: column; gap: 40px; padding: 0; }
+        .label-group.left, .label-group.right { text-align: center; align-items: center; order: 2; }
+        .chart-container { order: 1; margin: 40px 0; }
+        .chart-wrapper { width: 260px; height: 260px; }
+        .icon-wetland { width: 65px; top: 25%; right: 18%; }
+        .icon-other { width: 70px; top: 42%; left: 15%; }
+    }
+</style>
