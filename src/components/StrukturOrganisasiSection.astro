@@ -103,25 +103,35 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #e3e8ee;
         position: relative;
-        padding: 40px;
-        overflow: auto; 
+        /* Mengubah overflow menjadi hidden agar tidak ada scrollbar ganda saat di-scale */
+        overflow: hidden; 
+        padding: 40px 20px;
         width: 100%;
+        /* Flexbox untuk memastikan wrapper tetap di tengah sebelum di-scale */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 80vh; /* Pastikan section punya tinggi minimal */
     }
 
     .organigram-scope * { 
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
 
     .organigram-wrapper {
         background-color: #ffffff;
         width: max-content;
-        min-width: min-content; 
+        min-width: min-content;
         border-radius: 20px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 
-                    0 0 0 1px rgba(0,0,0,0.03); 
+                    0 0 0 1px rgba(0,0,0,0.03);
         padding: 80px 60px 100px 60px;
-        margin: 0 auto; 
+        /* Margin auto dihapus karena kita menggunakan Flex di parent */
+        margin: 0; 
         position: relative;
+        /* Transform origin penting agar zoom dimulai dari tengah atas */
+        transform-origin: top center;
+        transition: transform 0.3s ease-out; /* Animasi halus saat resize */
     }
 
     .organigram-header {
@@ -144,7 +154,7 @@
     }
     
     .tree ul {
-        padding-top: var(--gap-vertical); 
+        padding-top: var(--gap-vertical);
         position: relative;
         display: flex;
         justify-content: center;
@@ -168,7 +178,8 @@
     }
     /* Garis vertikal turun (default) */
     .tree li::after {
-        right: auto; left: 50%;
+        right: auto;
+        left: 50%;
         border-left: var(--line-thick) solid var(--line-color);
     }
     
@@ -178,29 +189,29 @@
     
     /* Lengkungan sudut garis */
     .tree li:last-child::before { 
-        border-right: var(--line-thick) solid var(--line-color); 
+        border-right: var(--line-thick) solid var(--line-color);
         border-radius: 0 16px 0 0; 
     }
     .tree li:first-child::after { 
-        border-radius: 16px 0 0 0; 
+        border-radius: 16px 0 0 0;
     }
     
     .tree ul ul::before {
         content: '';
         position: absolute; top: 0; left: 50%;
         border-left: var(--line-thick) solid var(--line-color);
-        width: 0; height: var(--gap-vertical); 
+        width: 0; height: var(--gap-vertical);
     }
 
     /* --- PERBAIKAN KHUSUS: GARIS KASI --- */
     /* Kita turunkan isi ul sejauh 430px */
     .tree ul.level-offset { 
-        padding-top: 430px; 
+        padding-top: 430px;
     } 
     
     /* Kita panjangkan garis vertikal pada induknya (li) agar nyambung ke bawah */
     .tree li.branch-long::after {
-        height: 480px !important; /* Memaksa garis menjadi panjang */
+        height: 480px !important;
         border-left: var(--line-thick) solid var(--line-color);
     }
 
@@ -211,7 +222,7 @@
         padding: 16px;
         border-radius: 12px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
-        border-top: 4px solid var(--line-color); 
+        border-top: 4px solid var(--line-color);
         border-bottom: 4px solid var(--accent-red); 
         display: inline-block;
         position: relative;
@@ -228,13 +239,16 @@
 
     /* --- FOTO & TEXT --- */
     .profile-img {
-        width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top center; 
+        width: 100%;
+        aspect-ratio: 3/4; object-fit: cover; object-position: top center; 
         border-radius: 8px; margin-bottom: 14px; border: 1px solid #edf2f7; background-color: #f1f5f9;
-        display: block; cursor: pointer;
+        display: block;
+        cursor: pointer;
     }
 
     .badge {
-        background-color: var(--accent-red); color: white; padding: 6px 8px; border-radius: 4px;
+        background-color: var(--accent-red); color: white;
+        padding: 6px 8px; border-radius: 4px;
         font-size: 0.7rem; font-weight: 700; display: block; margin-bottom: 10px;
         text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2;
     }
@@ -245,63 +259,173 @@
     }
 
     .gelar {
-        font-size: 0.8rem; color: #64748b; display: block; font-weight: 500; font-style: italic;
+        font-size: 0.8rem;
+        color: #64748b; display: block; font-weight: 500; font-style: italic;
     }
 
-    /* --- LIGHTBOX & RESPONSIVE --- */
+/* --- LIGHTBOX & RESPONSIVE (HYBRID FIX) --- */
     .lightbox {
-        display: none; position: fixed; z-index: 9999;
-        left: 0; top: 0; width: 100%; height: 100%; 
+        display: none;
+        position: fixed; 
+        z-index: 9999;
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        height: 100%; 
         background-color: rgba(30, 41, 59, 0.95);
-        justify-content: center; align-items: center; flex-direction: column;
-        backdrop-filter: blur(8px); padding: 20px;
+        backdrop-filter: blur(8px);
+        
+        /* DEFAULT (DESKTOP): Flexbox Centering Kaku (Sesuai keinginan Anda) */
+        /* Ini membuat desktop tampil rapi di tengah tanpa scrollbar aneh */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+        padding: 20px;
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease-out;
     }
-    .lightbox.active { display: flex; animation: fadeIn 0.2s ease-out; }
+
+    .lightbox.active { 
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Wrapper: Di Desktop dia hanya pembungkus biasa */
+    .lightbox-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+    }
     
     .lightbox-content {
-        max-width: 90%; max-height: 80vh; 
-        border: 4px solid #fff; border-radius: 8px;
+        /* Desktop: Kembali ke 65vh sesuai script yang Anda suka */
+        max-height: 65vh; 
+        max-width: 90%; 
+        width: auto;
+        
+        border: 4px solid #fff; 
+        border-radius: 8px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        object-fit: contain;
     }
     
     .lightbox-caption {
-        margin-top: 30px; color: #fff; text-align: center; width: 100%; padding: 0 20px;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 25px; cursor: pointer; 
+        margin-top: 20px;
+        color: #fff; 
+        text-align: center; 
+        width: 100%; 
+        max-width: 800px;
+        
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 10px;
     }
 
-    @media (max-width: 768px) {
-        .lightbox-content { max-width: 95vw; max-height: 60vh; }
-    }
-
+    /* Typography Defaults */
     :global(.lb-name) {
-        font-size: 3rem; font-weight: 900; line-height: 1.1; color: #ffffff;
-        text-shadow: 0 4px 15px rgba(0,0,0,0.9); text-transform: uppercase;
-        font-family: 'Segoe UI', sans-serif; margin-bottom: 10px; letter-spacing: 1px;
+        font-family: 'Segoe UI', sans-serif; 
+        font-weight: 900; 
+        color: #ffffff;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.9); 
+        text-transform: uppercase;
+        line-height: 1.2;
+        letter-spacing: 1px;
+        text-align: center;
     }
 
     :global(.lb-role) {
-        font-size: 1.4rem; font-weight: 700; color: #fca5a5;
-        text-transform: uppercase; letter-spacing: 3px;
-        background-color: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.3);
-        padding: 12px 24px; border-radius: 50px; width: 90%; max-width: 500px;
+        font-weight: 700;
+        text-transform: uppercase; 
+        letter-spacing: 2px;
+        text-align: center;
+        margin-top: 5px;
     }
 
-    @media (max-width: 400px) {
-        .lightbox-content { max-width: 98vw; max-height: 55vh; }
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+
+    /* 1. Desktop Styles (Mempertegas tampilan Desktop) */
+    @media (min-width: 1024px) {
         :global(.lb-name) { font-size: 2.5rem; }
-        :global(.lb-role) { font-size: 1.3rem; padding: 10px 20px; width: 95%; }
+        :global(.lb-role) { 
+            font-size: 1.2rem; 
+            color: #e2e8f0;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 10px;
+        }
     }
 
-    @media (min-width: 768px) {
-        .lightbox-content { max-width: 90%; max-height: 80vh; }
-        .lightbox-caption { gap: 10px; }
-        :global(.lb-name) { font-size: 2.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    /* 2. Tablet (Transisi) */
+    @media (max-width: 1023px) {
+        .lightbox-content { max-height: 55vh; } 
+        :global(.lb-name) { font-size: 2rem; }
         :global(.lb-role) { 
-            font-size: 1.3rem; letter-spacing: 3px; background: transparent; border: none;
-            border-top: 2px solid rgba(255, 255, 255, 0.5); border-radius: 0; padding: 15px 0 0 0;
-            width: auto; max-width: none; color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem; 
+            color: #fca5a5;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
         }
+    }
+
+    /* 3. MOBILE FIX (PENTING) */
+    /* Di sini kita ubah logika menjadi Scrolling agar tidak terpotong */
+    @media (max-width: 640px) {
+        .lightbox { 
+            /* Ubah layout container utama agar bisa di-scroll */
+            display: block; 
+            overflow-y: auto; 
+            padding: 0; 
+        }
+
+        .lightbox-wrapper {
+            /* Trik Margin Auto: Membuat konten 'floating' di tengah jika muat,
+               tapi bisa di-scroll jika layar terlalu pendek */
+            min-height: 100%;
+            margin: auto;
+            padding: 20px 15px;
+            justify-content: center;
+        }
+        
+        .lightbox-content { 
+            /* Ukuran gambar di HP */
+            max-height: 50vh; 
+            max-width: 100%;
+        }
+
+        .lightbox-caption { margin-top: 15px; gap: 5px; }
+
+        :global(.lb-name) { 
+            font-size: 1.5rem; 
+            word-break: break-word;
+        }
+        
+        :global(.lb-role) { 
+            font-size: 0.85rem; 
+            padding: 6px 12px;
+            width: auto;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+    }
+
+    /* 4. Landscape Mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .lightbox { display: block; overflow-y: auto; }
+        .lightbox-wrapper { 
+            flex-direction: row; 
+            min-height: 100%; 
+            margin: auto; 
+            gap: 20px; 
+        }
+        .lightbox-content { max-height: 85vh; width: auto; max-width: 45%; }
+        .lightbox-caption { align-items: flex-start; text-align: left; }
+        :global(.lb-name) { text-align: left; }
     }
 
     :global(body.no-scroll) { overflow: hidden; }
@@ -310,26 +434,69 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const wrapper = document.querySelector('.organigram-wrapper');
-        const rootCard = document.querySelector('.tree > ul > li > .card');
+        const scope = document.querySelector('.organigram-scope') as HTMLElement;
+        const wrapper = document.querySelector('.organigram-wrapper') as HTMLElement;
         const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
         const lightboxCaption = document.getElementById('lightbox-caption');
         const profileImages = document.querySelectorAll('.profile-img');
 
-        let lastWidth = window.innerWidth;
-        let isUserInteracting = false; 
+        // --- FIT TO SCREEN LOGIC ---
+        function fitOrganigram() {
+            if (!scope || !wrapper) return;
 
-        // Lightbox Logic
+            // Reset transform dulu untuk mendapatkan dimensi asli
+            wrapper.style.transform = 'none';
+            
+            // Hitung lebar konten (diagram) dan lebar container (layar)
+            const contentWidth = wrapper.scrollWidth;
+            const containerWidth = scope.clientWidth;
+            
+            // Padding aman agar tidak terlalu mepet pinggir
+            const paddingHorizontal = 40; 
+            
+            // Hitung rasio skala
+            // Jika konten lebih lebar dari layar, kita kecilkan (scale < 1)
+            // Jika konten lebih kecil, biarkan 1 (jangan di-zoom in pecah)
+            let scale = (containerWidth - paddingHorizontal) / contentWidth;
+            
+            if (scale > 1) scale = 1; 
+
+            // Terapkan skala
+            wrapper.style.transform = `scale(${scale})`;
+            
+            // S menyesuaikan tinggi container agar tidak ada whitespace berlebih di bawah
+            // karena scaling visual mengecilkan objek tapi tidak mengubah layout flow DOM
+            const contentHeight = wrapper.scrollHeight;
+            const scaledHeight = contentHeight * scale;
+            
+            // Set tinggi minimal scope agar pas dengan diagram yang sudah di-scale
+            // Tambahkan sedikit buffer (100px)
+            scope.style.height = `${scaledHeight + 100}px`;
+        }
+
+        // Jalankan saat load awal
+        // Timeout kecil memastikan render CSS selesai
+        setTimeout(fitOrganigram, 100);
+
+        // Jalankan saat window di-resize
+        window.addEventListener('resize', () => {
+             // Debounce sederhana agar tidak berat
+             requestAnimationFrame(fitOrganigram);
+        });
+
+        // --- LIGHTBOX LOGIC ---
         profileImages.forEach(img => {
             img.addEventListener('click', function(e) {
                 e.stopPropagation(); 
                 // @ts-ignore
-                lightboxImg.src = this.src;
+                const src = this.src;
                 // @ts-ignore
                 const rawText = this.getAttribute('data-name'); 
-                const parts = rawText.split(' - '); 
+
+                if (lightboxImg) lightboxImg.src = src;
                 
+                const parts = rawText.split(' - ');
                 if (lightboxCaption) {
                     lightboxCaption.innerHTML = `
                         <span class="lb-name">${parts[0]}</span>
@@ -347,32 +514,5 @@
                 document.body.classList.remove('no-scroll');
             });
         }
-
-        // Auto Center Logic
-        function centerOrganigram(force = false) {
-            if (!wrapper || !rootCard) return;
-            // @ts-ignore
-            if (lightbox && lightbox.classList.contains('active')) return;
-            if (isUserInteracting && !force) return; 
-
-            const cardRect = rootCard.getBoundingClientRect();
-            const currentScrollX = window.scrollX || document.documentElement.scrollLeft;
-            const absoluteCardCenterX = currentScrollX + cardRect.left + (cardRect.width / 2);
-            const viewportWidth = window.innerWidth;
-            const scrollToX = absoluteCardCenterX - (viewportWidth / 2);
-
-            window.scrollTo({ left: scrollToX, behavior: force ? 'auto' : 'smooth' });
-        }
-
-        setTimeout(() => { centerOrganigram(true); }, 100);
-        window.addEventListener('touchstart', () => { isUserInteracting = true; });
-        window.addEventListener('wheel', () => { isUserInteracting = true; });
-        window.addEventListener('resize', () => {
-            if (window.innerWidth !== lastWidth) {
-                lastWidth = window.innerWidth;
-                isUserInteracting = false; 
-                centerOrganigram(true);
-            }
-        });
     });
 </script>
