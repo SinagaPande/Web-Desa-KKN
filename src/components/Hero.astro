@@ -3,8 +3,14 @@ import DecorativeStrip from './DecorativeStrip.astro';
 
 // Daftar Gambar Background
 const backgrounds = [
-    "/Imagery/sugarcane_bg.webp",  // Gambar 1
-    "/Imagery/sugarcane_bg2.webp"  // Gambar 2
+    "/Imagery/sugarcane_bg.webp",
+    "/Imagery/sugarcane_bg2.webp"
+];
+
+// Daftar Logo untuk Slideshow
+const logos = [
+    "/Imagery/lampung_siger_traditional.webp", // Logo 1 (Siger - Index 0)
+    "/Imagery/Logo_LampungUtara.webp"          // Logo 2 (Lampung Utara - Index 1)
 ];
 ---
 
@@ -26,19 +32,39 @@ const backgrounds = [
         ))}
 
         <div class="absolute inset-0 bg-gradient-to-b from-lampung-dark/90 via-lampung-dark/60 to-lampung-dark/90 z-10"></div>
-        
         <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/batik-embossed.png')] z-10"></div>
     </div>
 
     <div class="relative z-20 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-4 md:gap-6 mt-10">
         
-        <div class="relative animate-float">
+    <div class="relative animate-float h-16 md:h-28 lg:h-36 w-full flex justify-center items-center mb-2">
+        {logos.map((logo, index) => (
             <img 
-                src="/Imagery/lampung_siger_traditional.webp" 
-                alt="Siger Lampung" 
-                class="h-24 md:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_10px_20px_rgba(240,198,92,0.5)] filter brightness-110"
+                src={logo} 
+                alt={`Logo Hero ${index + 1}`} 
+                class={`
+                    absolute w-auto object-contain 
+                    drop-shadow-[0_10px_20px_rgba(240,198,92,0.5)] filter brightness-110
+                    transition-opacity duration-[1000ms] ease-in-out
+                    
+                    /* LOGIKA TRANSISI AWAL */
+                    ${index === 0 ? 'opacity-100 relative z-10' : 'opacity-0 z-0'} 
+                    
+                    /* === CUSTOM STYLING PER LOGO === */
+
+                    /* 1. Siger (Index 0): Horizontal 1710x562
+                    Diperkecil agar lebih proporsional secara horizontal */
+                    ${index === 0 ? 'h-[100%] md:h-[85%] scale-100' : ''}
+
+                    /* 2. Lampung Utara (Index 1): Vertikal 928x1152
+                    UKURAN TETAP (Tidak diubah sesuai instruksi) */
+                    ${index === 1 ? 'h-full scale-[2.4] -translate-y-5 md:scale-[1.6] md:-translate-y-4' : ''}
+
+                    logo-slide
+                `}
             />
-        </div>
+        ))}
+    </div>
 
         <div class="space-y-2 md:space-y-4">
             <h2 class="text-lampung-bone text-[10px] md:text-sm tracking-[0.4em] font-serif uppercase opacity-90 mb-2 drop-shadow-md">
@@ -61,7 +87,7 @@ const backgrounds = [
 
     <div class="absolute bottom-0 w-full z-30 bg-gradient-to-t from-black via-black/60 to-transparent pt-12 pb-4">
         <div class="opacity-100 scale-90 md:scale-100">
-             <DecorativeStrip />
+            <DecorativeStrip />
         </div>
     </div>
 
@@ -78,27 +104,51 @@ const backgrounds = [
 </style>
 
 <script>
-    // Script Slideshow Sederhana
-    const slides = document.querySelectorAll('.bg-slide');
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    const intervalTime = 5000; // 5000ms = 5 detik (Ubah ke 2000 jika ingin 2 detik)
+    // --- 1. Script Slideshow BACKGROUND ---
+    const bgSlides = document.querySelectorAll('.bg-slide');
+    let currentBgSlide = 0;
+    const totalBgSlides = bgSlides.length;
+    const bgIntervalTime = 5000; 
 
-    function nextSlide() {
-        // Hilangkan opacity slide saat ini
-        slides[currentSlide].classList.remove('opacity-100');
-        slides[currentSlide].classList.add('opacity-0');
-
-        // Pindah ke slide berikutnya (looping)
-        currentSlide = (currentSlide + 1) % totalSlides;
-
-        // Munculkan slide baru
-        slides[currentSlide].classList.remove('opacity-0');
-        slides[currentSlide].classList.add('opacity-100');
+    function nextBgSlide() {
+        if(bgSlides.length === 0) return;
+        bgSlides[currentBgSlide].classList.remove('opacity-100');
+        bgSlides[currentBgSlide].classList.add('opacity-0');
+        
+        currentBgSlide = (currentBgSlide + 1) % totalBgSlides;
+        
+        bgSlides[currentBgSlide].classList.remove('opacity-0');
+        bgSlides[currentBgSlide].classList.add('opacity-100');
     }
 
-    // Jalankan timer
-    if (slides.length > 1) {
-        setInterval(nextSlide, intervalTime);
+    if (bgSlides.length > 1) {
+        setInterval(nextBgSlide, bgIntervalTime);
+    }
+
+    // --- 2. Script Slideshow LOGO ---
+    const logoSlides = document.querySelectorAll('.logo-slide');
+    let currentLogoSlide = 0;
+    const totalLogoSlides = logoSlides.length;
+    const logoIntervalTime = 4000; 
+
+    function nextLogoSlide() {
+        if(logoSlides.length === 0) return;
+
+        // Hide current
+        logoSlides[currentLogoSlide].classList.remove('opacity-100', 'relative', 'z-10');
+        logoSlides[currentLogoSlide].classList.add('opacity-0', 'z-0');
+        
+        // Move next
+        currentLogoSlide = (currentLogoSlide + 1) % totalLogoSlides;
+        
+        // Show next
+        logoSlides[currentLogoSlide].classList.remove('opacity-0', 'z-0');
+        logoSlides[currentLogoSlide].classList.add('opacity-100', 'relative', 'z-10');
+    }
+
+    if (logoSlides.length > 1) {
+        setTimeout(() => {
+            setInterval(nextLogoSlide, logoIntervalTime);
+        }, 1000); 
     }
 </script>
