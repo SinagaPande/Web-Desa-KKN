@@ -5,10 +5,12 @@ import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import SectionPlaceholder from '../components/SectionPlaceholder.astro';
 import BerandaSection from '../components/BerandaSection.astro';
-// Import komponen yang telah di-rename dan komponen baru
 import KependudukanSection from '../components/KependudukanSection.astro';
 import KomposisiLuasWilayahSection from '../components/KomposisiLuasWilayahSection.astro';
 import PetaDesa from '../components/PetaDesa.astro'; 
+
+// IMPORT BARU: Struktur Organisasi
+import StrukturOrganisasiSection from '../components/StrukturOrganisasiSection.astro';
 ---
 
 <Layout title="Desa Sukadana Ilir - Lampung Utara">
@@ -27,12 +29,13 @@ import PetaDesa from '../components/PetaDesa.astro';
         <PetaDesa />
         
         <div id="data-desa" class="scroll-mt-24 md:scroll-mt-28">
-            <KependudukanSection />
+             <KependudukanSection />
             <KomposisiLuasWilayahSection />
         </div>
 
-        <SectionPlaceholder id="pemerintahan-desa" title="Pemerintahan Desa" dark={true} />
-		<SectionPlaceholder id="pertanian-desa" title="Pertanian Desa" />
+        <StrukturOrganisasiSection />
+
+        <SectionPlaceholder id="pertanian-desa" title="Pertanian Desa" />
 		<SectionPlaceholder id="pendidikan" title="Pendidikan" dark={true} />
 		<SectionPlaceholder id="keagamaan" title="Keagamaan" />
 		<SectionPlaceholder id="program-&-kegiatan" title="Program & Kegiatan" dark={true} />
