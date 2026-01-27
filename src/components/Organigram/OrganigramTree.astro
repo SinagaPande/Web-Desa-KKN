@@ -1,0 +1,151 @@
+---
+import OrganigramNode from './OrganigramNode.astro';
+---
+
+<div class="tree">
+    <ul>
+        <li>
+            <OrganigramNode 
+                name="AGUS SYAHRIWAN" 
+                role="KEPALA DESA" 
+                img="/Imagery/Aparatur Desa/Kepala Desa.webp" 
+            />
+
+            <ul>
+                <li class="branch-long">
+                    <ul class="level-offset">
+                        <li>
+                            <OrganigramNode 
+                                name="HERMAN. S" 
+                                role="KASI PELAYANAN" 
+                                img="/Imagery/Aparatur Desa/KASI PELAYANAN.webp" 
+                            />
+                        </li>
+                        <li>
+                            <OrganigramNode 
+                                name="MUHAMMAD ALWI NASRULLAH" 
+                                role="KASI KESEJAHTERAAN" 
+                                gelar="AMd. Kes"
+                                img="/Imagery/Aparatur Desa/KASI KESEJAHTERAAN.webp" 
+                            />
+                        </li>
+                        <li>
+                            <OrganigramNode 
+                                name="MELIANTINA ANDIKA" 
+                                role="KASI PEMERINTAHAN" 
+                                img="/Imagery/Aparatur Desa/KASI PEMERINTAHAN.webp" 
+                            />
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <OrganigramNode 
+                        name="SUNANTO, S.H" 
+                        role="SEKRETARIS DESA" 
+                        img="/Imagery/Aparatur Desa/SEKRETARIS DESA.webp" 
+                    />
+
+                    <ul>
+                        <li>
+                            <OrganigramNode 
+                                name="ALEK" 
+                                role="KAUR TATA USAHA & UMUM" 
+                                img="/Imagery/Aparatur Desa/Kaur Umum.webp" 
+                            />
+                        </li>
+                        <li>
+                            <OrganigramNode 
+                                name="MERTANIA" 
+                                role="KAUR KEUANGAN" 
+                                gelar="AMd. AK"
+                                img="/Imagery/Aparatur Desa/Kaur keuangan.webp" 
+                            />
+                        </li>
+                        <li>
+                            <OrganigramNode 
+                                name="YUNIARTI" 
+                                role="KAUR PERENCANAAN" 
+                                img="/Imagery/Aparatur Desa/Kaur perencanaan.webp" 
+                            />
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<style>
+    /* --- CSS TREE STRUCTURE --- */
+    .tree {
+        display: table;
+        margin: 0 auto;
+    }
+    
+    .tree ul {
+        padding-top: var(--gap-vertical, 50px);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    .tree li {
+        text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: var(--gap-vertical, 50px) 15px 0 15px; 
+    }
+
+    /* --- LOGIKA GARIS (KONEKTOR) --- */
+    .tree li::before, .tree li::after {
+        content: '';
+        position: absolute; top: 0; right: 50%;
+        border-top: var(--line-thick, 3px) solid var(--line-color, #334b63); 
+        width: 50%; height: var(--gap-vertical, 50px); 
+        z-index: 0;
+    }
+    .tree li::after {
+        right: auto; left: 50%;
+        border-left: var(--line-thick, 3px) solid var(--line-color, #334b63);
+    }
+    
+    .tree li:only-child::after, .tree li:only-child::before { display: none; }
+    .tree li:only-child { padding-top: 0; }
+    .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+    
+    .tree li:last-child::before { 
+        border-right: var(--line-thick, 3px) solid var(--line-color, #334b63);
+        border-radius: 0 16px 0 0; 
+    }
+    .tree li:first-child::after { 
+        border-radius: 16px 0 0 0;
+    }
+    
+    .tree ul ul::before {
+        content: '';
+        position: absolute; top: 0; left: 50%;
+        border-left: var(--line-thick, 3px) solid var(--line-color, #334b63);
+        width: 0; height: var(--gap-vertical, 50px);
+    }
+
+    /* Quirks tetap dipertahankan */
+    .tree ul.level-offset { padding-top: 420px; } 
+    .tree li.branch-long::after {
+        height: 480px !important;
+        border-left: var(--line-thick, 3px) solid var(--line-color, #334b63);
+    }
+
+    @media (max-width: 768px) {
+        /* Kurangi jarak turun karena kartu Sekdes lebih kecil di HP */
+        .tree ul.level-offset { 
+            padding-top: 270px; 
+        } 
+        
+        /* Pendekkan juga garis penghubungnya */
+        .tree li.branch-long::after {
+            height: 360px !important; /* Sesuaikan agar garis tidak putus */
+        }
+    }
+</style>

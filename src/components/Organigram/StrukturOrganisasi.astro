@@ -1,0 +1,191 @@
+---
+// Import komponen pecahan
+import OrganigramTree from './OrganigramTree.astro';
+import OrganigramLightbox from './OrganigramLightbox.astro';
+---
+
+<section id="pemerintahan-desa" class="organigram-scope">
+    
+    <div class="organigram-wrapper">
+        <div class="organigram-header text-3xl font-bold font-serif text-gray-800">
+            Struktur Organisasi <br class="md:hidden" />
+            Pemerintahan Desa <br class="md:hidden" />
+            Sukadana Ilir
+        </div>
+    
+        <OrganigramTree />
+    </div>
+    
+    <OrganigramLightbox />
+
+</section>
+
+<style>
+    /* --- CSS UTAMA WRAPPER (DESKTOP) --- */
+    .organigram-scope {
+        /* [DESKTOP DEFAULT VARIABLES] */
+        --card-width: 220px;
+        --line-color: #334b63;
+        --line-thick: 3px;
+        --gap-vertical: 50px;
+        --card-bg: #ffffff;
+        --accent-red: #a82525;
+        --text-dark: #1e293b;
+
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #e3e8ee;
+        position: relative;
+        padding: 40px 20px;
+        width: 100%;
+        min-height: 80vh;
+        
+        /* Flexbox Center untuk Desktop */
+        display: flex;
+        justify-content: center; 
+        align-items: flex-start;
+        overflow: hidden; 
+    }
+
+    .organigram-wrapper {
+        background-color: #ffffff;
+        width: max-content;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        padding: 80px 40px;
+        transform-origin: top center;
+        transition: transform 0.3s ease-out;
+    }
+
+    .organigram-header {
+        text-align: center;
+        margin-bottom: 60px;
+        color: var(--text-dark);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 800;
+        border-bottom: 3px solid #f1f5f9;
+        padding-bottom: 25px;
+        width: 100%;
+        position: sticky;
+        left: 0;
+    }
+
+    /* =========================================
+       MOBILE SPECIFIC (LAYAR KECIL / HP)
+       ========================================= */
+    @media (max-width: 768px) {
+        .organigram-scope {
+            display: block; /* Scroll mode */
+            overflow-x: auto;
+            overflow-y: hidden;
+            
+            /* [MOBILE VARIABLE OVERRIDES] */
+            --card-width: 140px;
+            --gap-vertical: 30px;
+            
+            padding: 0; 
+        }
+
+        .organigram-wrapper {
+            transform: none !important; /* Matikan scale */
+            margin: 0;
+            padding: 20px;
+            box-shadow: none;
+            border-radius: 0;
+            width: max-content; 
+            min-width: 100vw; 
+        }
+
+        /* --- PERBAIKAN JUDUL AGAR FIT SCREEN & STICKY --- */
+        .organigram-header {
+            width: calc(100vw - 40px) !important;
+            max-width: calc(100vw - 40px) !important;
+            position: sticky !important;
+            left: 20px !important; 
+            
+            /* Styling Teks Mobile */
+            font-size: 1rem !important;
+            line-height: 1.4;
+            white-space: normal; 
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            
+            z-index: 50;
+            background-color: #ffffff; 
+        }
+
+        /* --- KARTU JABATAN (NODE) --- */
+        :global(.organigram-scope .name) {
+            font-size: 0.7rem !important;
+            margin-bottom: 2px !important;
+        }
+        
+        :global(.organigram-scope .badge) {
+            font-size: 0.55rem !important;
+            padding: 3px 6px !important;
+            margin-bottom: 4px !important;
+        }
+
+        :global(.organigram-scope .gelar) {
+            font-size: 0.6rem !important;
+        }
+
+        :global(.organigram-scope .card) {
+            padding: 8px !important;
+            border-radius: 6px !important;
+            border-top-width: 3px !important;
+            border-bottom-width: 3px !important;
+        }
+    } 
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scope = document.querySelector('.organigram-scope') as HTMLElement;
+        const wrapper = document.querySelector('.organigram-wrapper') as HTMLElement;
+
+        function fitOrganigram(isInitial = false) {
+            if (!scope || !wrapper) return;
+
+            // --- LOGIKA MOBILE (< 768px) ---
+            if (window.innerWidth < 768) {
+                // Reset style desktop
+                wrapper.style.transform = 'none';
+                scope.style.height = 'auto';
+
+                // AUTO-CENTER LOGIC: Geser scroll ke tengah
+                if (isInitial) {
+                    // Hitung posisi tengah: (Total Lebar Pohon - Lebar Layar HP) / 2
+                    const scrollCenter = (wrapper.scrollWidth - scope.clientWidth) / 2;
+                    scope.scrollLeft = scrollCenter;
+                }
+                return;
+            }
+
+            // --- LOGIKA DESKTOP (> 768px) ---
+            scope.scrollLeft = 0; // Reset scroll
+            
+            const contentWidth = wrapper.scrollWidth;
+            const containerWidth = scope.clientWidth;
+            const paddingHorizontal = 40;
+            
+            // Hitung Scale
+            let scale = (containerWidth - paddingHorizontal) / contentWidth;
+            if (scale > 1) scale = 1; 
+
+            wrapper.style.transform = `scale(${scale})`;
+            
+            const contentHeight = wrapper.scrollHeight;
+            const scaledHeight = contentHeight * scale;
+            scope.style.height = `${scaledHeight + 100}px`;
+        }
+
+        // Jalankan saat load
+        setTimeout(() => fitOrganigram(true), 100);
+
+        // Jalankan saat resize
+        window.addEventListener('resize', () => {
+             requestAnimationFrame(() => fitOrganigram(false));
+        });
+    });
+</script>

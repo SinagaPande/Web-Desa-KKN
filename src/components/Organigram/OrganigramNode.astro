@@ -1,0 +1,88 @@
+---
+// Props untuk data dinamis
+const { name, role, gelar, img, customDataRole } = Astro.props;
+
+// Logic untuk data-name lightbox (menggabungkan Nama - Jabatan)
+// customDataRole digunakan jika text di badge berbeda dengan text di lightbox (jarang terjadi, tapi untuk jaga-jaga)
+const lightboxName = `${name} - ${customDataRole || role}`;
+---
+
+<div class="card">
+    <img 
+        src={img} 
+        alt={role} 
+        class="profile-img" 
+        data-name={lightboxName} 
+    />
+    <span class="badge">{role}</span>
+    <div class="name">{name}</div>
+    {gelar && <span class="gelar">{gelar}</span>}
+</div>
+
+<style>
+    /* Styling Kartu Jabatan */
+    .card {
+        background: var(--card-bg, #ffffff);
+        width: var(--card-width, 220px);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border-top: 4px solid var(--line-color, #334b63);
+        border-bottom: 4px solid var(--accent-red, #a82525);
+        display: inline-block;
+        position: relative;
+        z-index: 10;
+        vertical-align: top;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        border-top-color: var(--accent-red, #a82525);
+    }
+
+    .profile-img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        object-position: top center;
+        border-radius: 8px;
+        margin-bottom: 14px;
+        border: 1px solid #edf2f7;
+        background-color: #f1f5f9;
+        display: block;
+        cursor: pointer;
+    }
+
+    .badge {
+        background-color: var(--accent-red, #a82525);
+        color: white;
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+
+    .name {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-dark, #1e293b);
+        line-height: 1.4;
+        margin-bottom: 4px;
+        word-wrap: break-word;
+    }
+
+    .gelar {
+        font-size: 0.8rem;
+        color: #64748b;
+        display: block;
+        font-weight: 500;
+        font-style: italic;
+    }
+</style>
