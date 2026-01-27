@@ -2,9 +2,9 @@
 // src/components/Navbar.astro
 
 const menuItems = [
-  { label: "Beranda Desa", href: "/#beranda-desa" },
-  { label: "Data Desa", href: "/#data-desa" }, // Diubah jadi # (anchor)
-  { label: "Pemerintahan Desa", href: "/#pemerintahan-desa" },
+  { label: "Profil Desa", href: "/#beranda-desa" },
+  { label: "Pemerintahan Desa", href: "/#pemerintahan-desa" }, // REVISI: Naik ke urutan 2
+  { label: "Data Desa", href: "/#data-desa" }, // REVISI: Turun ke urutan 3
   { label: "Pertanian Desa", href: "/#pertanian-desa" },
   { label: "Pendidikan", href: "/#pendidikan" },
   { label: "Keagamaan", href: "/#keagamaan" },
@@ -16,7 +16,7 @@ const menuItems = [
 <nav id="mobile-initial-nav" class="w-full bg-lampung-bone py-8 border-b-2 border-[#d4cbb8] md:hidden relative z-30">
   <div class="max-w-md mx-auto px-4">
     <div class="text-center mb-4">
-      <span class="text-xs font-serif uppercase tracking-widest text-stone-500">Menu Navigasi</span>
+      <span class="text-xs font-serif uppercase tracking-widest text-black">Menu Utama</span>
     </div>
     <div class="grid grid-cols-2 gap-3">
       {menuItems.map((item) => (
@@ -58,10 +58,7 @@ const menuItems = [
             href={item.href}
             class="group relative text-[#2d2520] py-2 whitespace-nowrap text-sm lg:text-base font-bold uppercase tracking-widest transition-colors duration-300"
           >
-            {/* Text Link */}
             <span class="relative z-10 group-hover:text-black">{item.label}</span>
-            
-            {/* Animated Underline Effect */}
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#f0c65c] transition-all duration-300 group-hover:w-full"></span>
           </a>
         ))}
@@ -86,7 +83,7 @@ const menuItems = [
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
              mobileStickyNav.classList.remove('-translate-y-[120%]');
           } else {
-             mobileStickyNav.classList.add('-translate-y-[120%]');
+            mobileStickyNav.classList.add('-translate-y-[120%]');
           }
         });
       }, {

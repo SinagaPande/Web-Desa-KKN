@@ -78,7 +78,8 @@ const logos = [
             <div class="flex items-center justify-center gap-4 mt-4">
                 <span class="h-[1px] w-8 md:w-20 bg-lampung-gold/70 shadow-[0_0_10px_#f0c65c]"></span>
                 <p class="text-lampung-gold text-xs md:text-base tracking-widest uppercase font-serif font-bold drop-shadow-lg">
-                    Kec. Bunga Mayang • Lampung Utara
+                    {/* REVISI: Kec. -> Kecamatan */}
+                    Kecamatan Bunga Mayang • Lampung Utara
                 </p>
                 <span class="h-[1px] w-8 md:w-20 bg-lampung-gold/70 shadow-[0_0_10px_#f0c65c]"></span>
             </div>
@@ -108,7 +109,7 @@ const logos = [
     const bgSlides = document.querySelectorAll('.bg-slide');
     let currentBgSlide = 0;
     const totalBgSlides = bgSlides.length;
-    const bgIntervalTime = 5000; 
+    const bgIntervalTime = 5000;
 
     function nextBgSlide() {
         if(bgSlides.length === 0) return;
@@ -129,11 +130,10 @@ const logos = [
     const logoSlides = document.querySelectorAll('.logo-slide');
     let currentLogoSlide = 0;
     const totalLogoSlides = logoSlides.length;
-    const logoIntervalTime = 4000; 
+    const logoIntervalTime = 4000;
 
     function nextLogoSlide() {
         if(logoSlides.length === 0) return;
-
         // Hide current
         logoSlides[currentLogoSlide].classList.remove('opacity-100', 'relative', 'z-10');
         logoSlides[currentLogoSlide].classList.add('opacity-0', 'z-0');
@@ -149,6 +149,6 @@ const logos = [
     if (logoSlides.length > 1) {
         setTimeout(() => {
             setInterval(nextLogoSlide, logoIntervalTime);
-        }, 1000); 
+        }, 1000);
     }
 </script>

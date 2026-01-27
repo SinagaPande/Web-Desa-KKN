@@ -7,9 +7,7 @@ import SectionPlaceholder from '../components/SectionPlaceholder.astro';
 import BerandaSection from '../components/BerandaSection.astro';
 import KependudukanSection from '../components/KependudukanSection.astro';
 import KomposisiLuasWilayahSection from '../components/KomposisiLuasWilayahSection.astro';
-import PetaDesa from '../components/PetaDesa.astro'; 
-
-// IMPORT BARU: Struktur Organisasi
+import PetaDesa from '../components/PetaDesa.astro';
 import StrukturOrganisasiSection from '../components/StrukturOrganisasiSection.astro';
 ---
 
@@ -27,13 +25,14 @@ import StrukturOrganisasiSection from '../components/StrukturOrganisasiSection.a
         </div>
         
         <PetaDesa />
+
+        {/* REVISI: Struktur Organisasi dipindah ke SINI (Sebelum Data Desa) */}
+        <StrukturOrganisasiSection />
         
         <div id="data-desa" class="scroll-mt-24 md:scroll-mt-28">
-             <KependudukanSection />
+            <KependudukanSection />
             <KomposisiLuasWilayahSection />
         </div>
-
-        <StrukturOrganisasiSection />
 
         <SectionPlaceholder id="pertanian-desa" title="Pertanian Desa" />
 		<SectionPlaceholder id="pendidikan" title="Pendidikan" dark={true} />

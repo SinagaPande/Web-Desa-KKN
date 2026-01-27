@@ -5,7 +5,10 @@
 <section id="pemerintahan-desa" class="organigram-scope">
     
     <div class="organigram-wrapper">
-        <div class="organigram-header">Pemerintahan Desa</div>
+        {/* REVISI: Judul diubah, font size disesuaikan (text-2xl md:text-4xl) tapi gaya tetap */}
+        <div class="organigram-header text-2xl md:text-4xl">
+            Struktur Organisasi Pemerintahan Desa Sukadana Ilir
+        </div>
     
         <div class="tree">
             <ul>
@@ -103,15 +106,13 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #e3e8ee;
         position: relative;
-        /* Mengubah overflow menjadi hidden agar tidak ada scrollbar ganda saat di-scale */
-        overflow: hidden; 
+        overflow: hidden;
         padding: 40px 20px;
         width: 100%;
-        /* Flexbox untuk memastikan wrapper tetap di tengah sebelum di-scale */
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        min-height: 80vh; /* Pastikan section punya tinggi minimal */
+        min-height: 80vh; 
     }
 
     .organigram-scope * { 
@@ -126,12 +127,10 @@
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 
                     0 0 0 1px rgba(0,0,0,0.03);
         padding: 80px 60px 100px 60px;
-        /* Margin auto dihapus karena kita menggunakan Flex di parent */
-        margin: 0; 
+        margin: 0;
         position: relative;
-        /* Transform origin penting agar zoom dimulai dari tengah atas */
         transform-origin: top center;
-        transition: transform 0.3s ease-out; /* Animasi halus saat resize */
+        transition: transform 0.3s ease-out; 
     }
 
     .organigram-header {
@@ -141,7 +140,7 @@
         text-transform: uppercase;
         letter-spacing: 4px;
         font-weight: 800;
-        font-size: 1.8rem;
+        /* font-size: 1.8rem; <-- DIHAPUS agar bisa diatur via Tailwind class */
         border-bottom: 3px solid #f1f5f9;
         padding-bottom: 25px;
         width: 100%;
@@ -204,12 +203,10 @@
     }
 
     /* --- PERBAIKAN KHUSUS: GARIS KASI --- */
-    /* Kita turunkan isi ul sejauh 430px */
     .tree ul.level-offset { 
-        padding-top: 430px;
+        padding-top: 420px;
     } 
     
-    /* Kita panjangkan garis vertikal pada induknya (li) agar nyambung ke bawah */
     .tree li.branch-long::after {
         height: 480px !important;
         border-left: var(--line-thick) solid var(--line-color);
@@ -263,7 +260,7 @@
         color: #64748b; display: block; font-weight: 500; font-style: italic;
     }
 
-/* --- LIGHTBOX & RESPONSIVE (HYBRID FIX) --- */
+    /* --- LIGHTBOX & RESPONSIVE --- */
     .lightbox {
         display: none;
         position: fixed; 
@@ -274,15 +271,11 @@
         height: 100%; 
         background-color: rgba(30, 41, 59, 0.95);
         backdrop-filter: blur(8px);
-        
-        /* DEFAULT (DESKTOP): Flexbox Centering Kaku (Sesuai keinginan Anda) */
-        /* Ini membuat desktop tampil rapi di tengah tanpa scrollbar aneh */
         display: flex;
         flex-direction: column;
         justify-content: center; 
         align-items: center;
         padding: 20px;
-
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease-out;
@@ -293,7 +286,6 @@
         pointer-events: auto;
     }
 
-    /* Wrapper: Di Desktop dia hanya pembungkus biasa */
     .lightbox-wrapper {
         display: flex;
         flex-direction: column;
@@ -304,11 +296,9 @@
     }
     
     .lightbox-content {
-        /* Desktop: Kembali ke 65vh sesuai script yang Anda suka */
-        max-height: 65vh; 
+        max-height: 65vh;
         max-width: 90%; 
         width: auto;
-        
         border: 4px solid #fff; 
         border-radius: 8px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -321,16 +311,14 @@
         text-align: center; 
         width: 100%; 
         max-width: 800px;
-        
         display: flex; 
         flex-direction: column; 
         align-items: center; 
         gap: 10px;
     }
 
-    /* Typography Defaults */
     :global(.lb-name) {
-        font-family: 'Segoe UI', sans-serif; 
+        font-family: 'Segoe UI', sans-serif;
         font-weight: 900; 
         color: #ffffff;
         text-shadow: 0 4px 15px rgba(0,0,0,0.9); 
@@ -348,25 +336,21 @@
         margin-top: 5px;
     }
 
-    /* --- RESPONSIVE MEDIA QUERIES --- */
-
-    /* 1. Desktop Styles (Mempertegas tampilan Desktop) */
     @media (min-width: 1024px) {
         :global(.lb-name) { font-size: 2.5rem; }
         :global(.lb-role) { 
-            font-size: 1.2rem; 
+            font-size: 1.2rem;
             color: #e2e8f0;
             border-top: 1px solid rgba(255,255,255,0.3);
             padding-top: 10px;
         }
     }
 
-    /* 2. Tablet (Transisi) */
     @media (max-width: 1023px) {
         .lightbox-content { max-height: 55vh; } 
         :global(.lb-name) { font-size: 2rem; }
         :global(.lb-role) { 
-            font-size: 1rem; 
+            font-size: 1rem;
             color: #fca5a5;
             background: rgba(255,255,255,0.1);
             padding: 8px 16px;
@@ -374,51 +358,39 @@
         }
     }
 
-    /* 3. MOBILE FIX (PENTING) */
-    /* Di sini kita ubah logika menjadi Scrolling agar tidak terpotong */
     @media (max-width: 640px) {
         .lightbox { 
-            /* Ubah layout container utama agar bisa di-scroll */
-            display: block; 
+            display: block;
             overflow-y: auto; 
             padding: 0; 
         }
-
         .lightbox-wrapper {
-            /* Trik Margin Auto: Membuat konten 'floating' di tengah jika muat,
-               tapi bisa di-scroll jika layar terlalu pendek */
             min-height: 100%;
             margin: auto;
             padding: 20px 15px;
             justify-content: center;
         }
-        
         .lightbox-content { 
-            /* Ukuran gambar di HP */
-            max-height: 50vh; 
+            max-height: 50vh;
             max-width: 100%;
         }
-
         .lightbox-caption { margin-top: 15px; gap: 5px; }
-
         :global(.lb-name) { 
-            font-size: 1.5rem; 
+            font-size: 1.5rem;
             word-break: break-word;
         }
-        
         :global(.lb-role) { 
-            font-size: 0.85rem; 
+            font-size: 0.85rem;
             padding: 6px 12px;
             width: auto;
             border: 1px solid rgba(255,255,255,0.3);
         }
     }
 
-    /* 4. Landscape Mobile */
     @media (max-height: 500px) and (orientation: landscape) {
         .lightbox { display: block; overflow-y: auto; }
         .lightbox-wrapper { 
-            flex-direction: row; 
+            flex-direction: row;
             min-height: 100%; 
             margin: auto; 
             gap: 20px; 
@@ -429,7 +401,6 @@
     }
 
     :global(body.no-scroll) { overflow: hidden; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 
 <script>
@@ -441,51 +412,26 @@
         const lightboxCaption = document.getElementById('lightbox-caption');
         const profileImages = document.querySelectorAll('.profile-img');
 
-        // --- FIT TO SCREEN LOGIC ---
         function fitOrganigram() {
             if (!scope || !wrapper) return;
-
-            // Reset transform dulu untuk mendapatkan dimensi asli
             wrapper.style.transform = 'none';
-            
-            // Hitung lebar konten (diagram) dan lebar container (layar)
             const contentWidth = wrapper.scrollWidth;
             const containerWidth = scope.clientWidth;
-            
-            // Padding aman agar tidak terlalu mepet pinggir
-            const paddingHorizontal = 40; 
-            
-            // Hitung rasio skala
-            // Jika konten lebih lebar dari layar, kita kecilkan (scale < 1)
-            // Jika konten lebih kecil, biarkan 1 (jangan di-zoom in pecah)
+            const paddingHorizontal = 40;
             let scale = (containerWidth - paddingHorizontal) / contentWidth;
-            
             if (scale > 1) scale = 1; 
 
-            // Terapkan skala
             wrapper.style.transform = `scale(${scale})`;
-            
-            // S menyesuaikan tinggi container agar tidak ada whitespace berlebih di bawah
-            // karena scaling visual mengecilkan objek tapi tidak mengubah layout flow DOM
             const contentHeight = wrapper.scrollHeight;
             const scaledHeight = contentHeight * scale;
-            
-            // Set tinggi minimal scope agar pas dengan diagram yang sudah di-scale
-            // Tambahkan sedikit buffer (100px)
             scope.style.height = `${scaledHeight + 100}px`;
         }
 
-        // Jalankan saat load awal
-        // Timeout kecil memastikan render CSS selesai
         setTimeout(fitOrganigram, 100);
-
-        // Jalankan saat window di-resize
         window.addEventListener('resize', () => {
-             // Debounce sederhana agar tidak berat
              requestAnimationFrame(fitOrganigram);
         });
 
-        // --- LIGHTBOX LOGIC ---
         profileImages.forEach(img => {
             img.addEventListener('click', function(e) {
                 e.stopPropagation(); 
