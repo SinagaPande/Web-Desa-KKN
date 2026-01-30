@@ -12,10 +12,17 @@ interface Props {
 const siteUrl = Astro.site ? Astro.site.href : "https://sukadanailir.vercel.app";
 
 const {
-  title = "Desa Sukadana Ilir • Bunga Mayang • Lampung Utara",
-  description = "Website resmi Desa Sukadana Ilir, Kecamatan Bunga Mayang, Kabupaten Lampung Utara. Pusat informasi pemerintahan, potensi pertanian, dan layanan masyarakat.",
-  keywords = "Desa Sukadana Ilir, Sukadana Ilir, Bunga Mayang, Lampung Utara, Lampung, website desa, pemerintahan desa",
-  image = "/Imagery/Logo_LampungUtara.webp", // Gambar default untuk share link (tetap logo Kab supaya resmi)
+  // Judul Default yang mengandung hierarki wilayah (Penting untuk SEO Lokal)
+  title = "Desa Sukadana Ilir • Kecamatan Bunga Mayang • Lampung Utara",
+  
+  // Deskripsi yang memuat potensi utama desa
+  description = "Website Resmi Pemerintah Desa Sukadana Ilir, Kecamatan Bunga Mayang, Kabupaten Lampung Utara. Informasi pelayanan publik, transparansi dana desa, dan potensi pertanian (Sawit, Karet, Tebu, Padi).",
+  
+  // Kata kunci target + variasi penulisan
+  keywords = "Desa Sukadana Ilir, Sukadana Ilir, Bunga Mayang, Lampung Utara, Kotabumi, website desa, profil desa, dana desa, pertanian lampung, tebu, sawit, karet, padi",
+  
+  // Gambar default untuk share link (menggunakan logo daerah/siger)
+  image = "/Imagery/Logo_LampungUtara.webp", 
   pageType = "website"
 } = Astro.props;
 
@@ -53,15 +60,35 @@ const imageURL = new URL(image, siteUrl);
   "@context": "https://schema.org",
   "@type": "GovernmentOrganization",
   "name": "Pemerintah Desa Sukadana Ilir",
-  "alternateName": "Desa Sukadana Ilir",
+  "alternateName": "Kantor Desa Sukadana Ilir",
   "url": siteUrl,
   "logo": imageURL,
-  "image": new URL("/Imagery/favicon/favicon_siger.png", siteUrl), // Menambahkan Siger sebagai image alternatif di data Google
+  "image": new URL("/Imagery/favicon/favicon_siger.png", siteUrl),
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Bunga Mayang",
-    "addressRegion": "Lampung Utara",
+    "streetAddress": "Jl. Poros Desa Sukadana Ilir", // Ganti jika ada nama jalan spesifik
+    "addressLocality": "Kecamatan Bunga Mayang",
+    "addressRegion": "Kabupaten Lampung Utara",
+    "postalCode": "34554", // Kode Pos Bunga Mayang
     "addressCountry": "ID"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    // Koordinat umum area Bunga Mayang/Sukadana Ilir
+    "latitude": "-4.5565", 
+    "longitude": "104.7386" 
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+62-000-0000-0000", // Ganti dengan No HP Pelayanan/Kades jika ada (opsional)
+    "contactType": "public service",
+    "areaServed": "ID",
+    "availableLanguage": "Indonesian"
+  },
+  "sameAs": [
+    // Jika desa punya sosmed, masukkan linknya di sini. Jika tidak, biarkan array kosong []
+    "https://facebook.com/DesaSukadanaIlir", 
+    "https://instagram.com/DesaSukadanaIlir"
+  ],
   "description": description
 })} />
