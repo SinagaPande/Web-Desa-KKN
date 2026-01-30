@@ -1,0 +1,66 @@
+---
+// src/components/SEO.astro
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+  pageType?: "website" | "article";
+}
+
+// Mengambil URL situs dari konfigurasi atau fallback ke localhost
+const siteUrl = Astro.site ? Astro.site.href : "https://sukadanailir.vercel.app";
+
+const {
+  title = "Desa Sukadana Ilir • Bunga Mayang • Lampung Utara",
+  description = "Website resmi Desa Sukadana Ilir, Kecamatan Bunga Mayang, Kabupaten Lampung Utara. Pusat informasi pemerintahan, potensi pertanian, dan layanan masyarakat.",
+  keywords = "Desa Sukadana Ilir, Sukadana Ilir, Bunga Mayang, Lampung Utara, Lampung, website desa",
+  image = "/Imagery/Logo_LampungUtara.webp",
+  pageType = "website"
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const imageURL = new URL(image, siteUrl);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<link rel="icon" type="image/webp" href="/Imagery/lampung_siger_traditional.webp" />
+
+<meta name="google-site-verification" content="google2afd5e3615fe4545" />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<link rel="canonical" href={canonicalURL} />
+
+<meta property="og:type" content={pageType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageURL} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "GovernmentOrganization",
+  "name": "Pemerintah Desa Sukadana Ilir",
+  "alternateName": "Desa Sukadana Ilir",
+  "url": siteUrl,
+  "logo": imageURL,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bunga Mayang",
+    "addressRegion": "Lampung Utara",
+    "addressCountry": "ID"
+  },
+  "description": description
+})} />
