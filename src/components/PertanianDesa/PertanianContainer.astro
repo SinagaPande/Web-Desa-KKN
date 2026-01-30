@@ -1,0 +1,43 @@
+---
+// src/components/PertanianDesa/PertanianContainer.astro
+import PertanianNav from './PertanianNav.astro';
+import PertanianSlideshow from './PertanianSlideshow.astro';
+import PertanianLightbox from './PertanianLightbox.astro';
+---
+
+<div id="pertanian-desa-container">
+  <div class="card-container">
+    <div class="card-accent"></div>
+
+    <PertanianNav />
+
+    <PertanianSlideshow />
+  </div>
+
+  <PertanianLightbox />
+</div>
+
+<style>
+  /* --- CONTAINER & GLOBAL STYLE --- */
+  #pertanian-desa-container {
+    font-family: 'Inter', sans-serif;
+    color: #2d2520;
+    padding: 40px 20px;
+    background-color: #e3e8ee;
+  }
+
+  .card-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); 
+      overflow: hidden;
+  }
+
+  .card-accent {
+      height: 8px;
+      background: linear-gradient(90deg, #2e7d32, #f9a825, #3e2723);
+  }
+</style>

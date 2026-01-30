@@ -1,0 +1,190 @@
+---
+// src/components/PertanianDesa/PertanianNav.astro
+---
+
+<header class="card-header">
+  <h1>Dokumentasi Pertanian Desa</h1>
+  <p class="header-desc">
+    Kumpulan Foto Tanaman Pertanian yang Ada di Desa Sukadana Ilir
+  </p>
+  <p class="header-note">Klik kartu untuk navigasi cepat</p>
+</header>
+
+<nav class="commodity-nav">
+  <div class="nav-row">
+    <button onclick="document.getElementById('tebu').scrollIntoView({behavior: 'smooth'})" class="card-btn btn-tebu">
+      <div class="card-btn-icon">
+        <img src="/Imagery/icons_agriculture/sugarcane_icon.webp" alt="Icon Tebu" />
+      </div>
+      <span>Tebu</span>
+    </button>
+
+    <button onclick="document.getElementById('singkong').scrollIntoView({behavior: 'smooth'})" class="card-btn btn-singkong">
+      <div class="card-btn-icon">
+        <img src="/Imagery/icons_agriculture/cassava_icon.webp" alt="Icon Singkong" />
+      </div>
+      <span>Singkong</span>
+    </button>
+
+    <button onclick="document.getElementById('padi').scrollIntoView({behavior: 'smooth'})" class="card-btn btn-padi">
+      <div class="card-btn-icon">
+        <img src="/Imagery/icons_agriculture/rice_icon.webp" alt="Icon Padi" />
+      </div>
+      <span>Padi</span>
+    </button>
+  </div>
+
+  <div class="nav-row">
+    <button onclick="document.getElementById('sawit').scrollIntoView({behavior: 'smooth'})" class="card-btn btn-sawit">
+      <div class="card-btn-icon">
+        <img src="/Imagery/icons_agriculture/oilpalm_icon.webp" alt="Icon Sawit" />
+      </div>
+      <span>Sawit</span>
+    </button>
+
+    <button onclick="document.getElementById('karet').scrollIntoView({behavior: 'smooth'})" class="card-btn btn-karet">
+      <div class="card-btn-icon">
+        <img src="/Imagery/icons_agriculture/rubber_icon.webp" alt="Icon Karet" />
+      </div>
+      <span>Karet</span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  /* --- HEADER STYLE --- */
+  .card-header {
+      padding: 30px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+  }
+  
+  /* REVISI: Menyamakan style dengan Peta Wilayah Desa (text-3xl font-bold text-gray-800) */
+  .card-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;     /* Ukuran besar */
+      font-weight: 700;    /* Cetak Tebal (Bold) */
+      color: #1f2937;      /* Warna Gray-800 (sesuai Peta) */
+      margin-bottom: 8px;
+  }
+  
+  .header-desc { color: #555; font-style: italic; margin-bottom: 5px; }
+  .header-note { font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* --- NAV BUTTON STYLE (DESKTOP) --- */
+  .commodity-nav {
+      padding: 30px 20px;
+      background-color: #fafafa;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+  }
+  .nav-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+  }
+  .card-btn {
+      border: none;
+      border-radius: 24px;
+      flex: 0 1 220px; 
+      aspect-ratio: 1 / 1; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px; 
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+      position: relative;
+      overflow: hidden;
+  }
+  .card-btn span {
+      flex: 0 0 auto;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      text-align: center;
+  }
+  .card-btn-icon {
+      flex-grow: 1; 
+      width: 100%;
+      display: flex;
+      align-items: center; 
+      justify-content: center; 
+      max-height: 65%; 
+  }
+  .card-btn-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(3px 0 0 white) drop-shadow(-3px 0 0 white) drop-shadow(0 3px 0 white) drop-shadow(0 -3px 0 white) drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+      transition: transform 0.4s ease;
+  }
+  .card-btn:hover .card-btn-icon img { transform: scale(1.05) rotate(2deg); }
+
+  .btn-tebu { background: linear-gradient(135deg, #43a047, #1b5e20); }
+  .btn-singkong { background: linear-gradient(135deg, #8d6e63, #4e342e); }
+  .btn-padi { background: linear-gradient(135deg, #ffb300, #dedc35); }
+  .btn-sawit { background: linear-gradient(135deg, #aa3e10, #fee16b); }
+  .btn-karet { background: linear-gradient(135deg, #ebdfe3, #a38078); }
+
+  /* ========================================= */
+  /* MEDIA QUERY MOBILE (PERBAIKAN UKURAN)     */
+  /* ========================================= */
+  @media (max-width: 600px) {
+      .commodity-nav { 
+          padding: 15px 5px; 
+          gap: 12px; 
+      }
+      
+      .nav-row { 
+          gap: 8px; 
+      }
+
+      .card-btn {
+          /* Tetap 3 kolom seragam */
+          flex: 0 0 32%; 
+          max-width: 32%;
+          
+          border-radius: 12px; 
+          /* Padding diperkecil agar ikon punya ruang tumbuh */
+          padding: 8px 4px; 
+          gap: 4px; 
+      }
+
+      .card-btn-icon { 
+          max-height: unset; 
+          flex-grow: 1; 
+          height: auto;
+          margin-bottom: 0;
+      }
+
+      /* Ikon Besar tapi tidak pecah (max-height 75px) */
+      .card-btn-icon img { 
+          max-height: 75px; 
+          width: auto;
+          height: auto;
+          transform: none; 
+          filter: drop-shadow(1.5px 0 0 white) drop-shadow(-1.5px 0 0 white) drop-shadow(0 1.5px 0 white) drop-shadow(0 -1.5px 0 white) drop-shadow(0 2px 3px rgba(0,0,0,0.2)); 
+      }
+
+      .card-btn span { 
+          font-size: 0.65rem; 
+          font-weight: 800;
+          white-space: nowrap; 
+          overflow: hidden; 
+          text-overflow: ellipsis; 
+          max-width: 100%; 
+      }
+  }
+</style>
