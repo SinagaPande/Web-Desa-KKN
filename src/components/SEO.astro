@@ -8,14 +8,14 @@ interface Props {
   pageType?: "website" | "article";
 }
 
-// Mengambil URL situs dari konfigurasi atau fallback ke localhost
+// Mengambil URL situs dari konfigurasi atau fallback ke domain Vercel
 const siteUrl = Astro.site ? Astro.site.href : "https://sukadanailir.vercel.app";
 
 const {
   title = "Desa Sukadana Ilir • Bunga Mayang • Lampung Utara",
   description = "Website resmi Desa Sukadana Ilir, Kecamatan Bunga Mayang, Kabupaten Lampung Utara. Pusat informasi pemerintahan, potensi pertanian, dan layanan masyarakat.",
-  keywords = "Desa Sukadana Ilir, Sukadana Ilir, Bunga Mayang, Lampung Utara, Lampung, website desa",
-  image = "/Imagery/Logo_LampungUtara.webp",
+  keywords = "Desa Sukadana Ilir, Sukadana Ilir, Bunga Mayang, Lampung Utara, Lampung, website desa, pemerintahan desa",
+  image = "/Imagery/Logo_LampungUtara.webp", // Gambar default untuk share link (tetap logo Kab supaya resmi)
   pageType = "website"
 } = Astro.props;
 
@@ -27,7 +27,7 @@ const imageURL = new URL(image, siteUrl);
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 
-<link rel="icon" type="image/webp" href="/Imagery/lampung_siger_traditional.webp" />
+<link rel="icon" type="image/png" href="/Imagery/favicon/favicon_siger.png" />
 
 <meta name="google-site-verification" content="google2afd5e3615fe4545" />
 
@@ -56,6 +56,7 @@ const imageURL = new URL(image, siteUrl);
   "alternateName": "Desa Sukadana Ilir",
   "url": siteUrl,
   "logo": imageURL,
+  "image": new URL("/Imagery/favicon/favicon_siger.png", siteUrl), // Menambahkan Siger sebagai image alternatif di data Google
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Bunga Mayang",
