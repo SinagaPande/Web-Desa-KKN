@@ -10,13 +10,9 @@ import KomposisiLuasWilayahSection from '../components/KomposisiLuasWilayahSecti
 import PetaDesa from '../components/PetaDesa.astro';
 import StrukturOrganisasi from '../components/Organigram/StrukturOrganisasi.astro';
 import PendidikanContainer from '../components/Pendidikan/PendidikanContainer.astro';
-
-// --- UBAH BAGIAN INI ---
-// Hapus import lama:
-// import DokumentasiPertanian from '../components/PertanianDesa/DokumentasiPertanian.astro';
-
-// Ganti dengan Container baru:
 import PertanianContainer from '../components/PertanianDesa/PertanianContainer.astro';
+// 1. Import komponen Keagamaan baru
+import KeagamaanContainer from '../components/Keagamaan/KeagamaanContainer.astro';
 ---
 
 <Layout title="Desa Sukadana Ilir - Lampung Utara">
@@ -48,7 +44,11 @@ import PertanianContainer from '../components/PertanianDesa/PertanianContainer.a
         <div id="pendidikan" class="scroll-mt-24 md:scroll-mt-28">
             <PendidikanContainer />
         </div>
-		<SectionPlaceholder id="keagamaan" title="Keagamaan" />
+
+        <div id="keagamaan" class="scroll-mt-24 md:scroll-mt-28">
+            <KeagamaanContainer />
+        </div>
+
 		<SectionPlaceholder id="program-&-kegiatan" title="Program & Kegiatan" dark={true} />
 		<SectionPlaceholder id="informasi" title="Informasi" />
 	</main>

@@ -1,0 +1,69 @@
+---
+// src/components/Keagamaan/KeagamaanContainer.astro
+import Header from './Header.astro';
+import './keagamaan.css';
+import '../Global/Slideshow/slideshow.css'; 
+
+import { keagamaanData } from './keagamaanData.js';
+---
+
+<div class="keagamaan-wrapper">
+    <div class="k-card-container">
+        <Header />
+        
+        <main class="k-content-area">
+            {Object.entries(keagamaanData).map(([key, section]) => (
+                <section id={`k-${key}`} class="k-section">
+                    {section.places.map((place, index) => (
+                        <div class="k-place-block">
+                            <h3 class="k-place-title">{place.name}</h3>
+                            
+                            <div 
+                                id={`slideshow-religi-${index}`} 
+                                class="slideshow-wrapper"
+                                data-images={JSON.stringify(place.images)}
+                            ></div>
+
+                            <div class="k-actions">
+                                {place.locationLink && (
+                                    <a href={place.locationLink} class="k-btn" target="_blank">
+                                        <img src="/Imagery/an_area.webp" alt="Lokasi" />
+                                        <span>Lihat Lokasi Maps</span>
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </section>
+            ))}
+        </main>
+    </div>
+</div>
+
+<script>
+  import { GlobalSlideshow } from '../Global/Slideshow/GlobalSlideshow.js';
+
+  // Inisialisasi Slideshow Khusus Keagamaan
+  function initReligiSlideshows() {
+      // Kita cari wrapper yang spesifik berada di dalam area keagamaan agar aman
+      const wrappers = document.querySelectorAll('.keagamaan-wrapper .slideshow-wrapper');
+      
+      wrappers.forEach(wrapper => {
+          // Cek apakah instance sudah ada untuk mencegah double init (opsional safety)
+          if (wrapper.innerHTML.trim() !== "") return;
+
+          const imagesAttr = wrapper.getAttribute('data-images');
+          if (imagesAttr) {
+              try {
+                  const images = JSON.parse(imagesAttr);
+                  new GlobalSlideshow(wrapper, images);
+              } catch (e) {
+                  console.error("Gagal parse gambar masjid", e);
+              }
+          }
+      });
+  }
+
+  // Jalankan saat load
+  initReligiSlideshows();
+</script>
