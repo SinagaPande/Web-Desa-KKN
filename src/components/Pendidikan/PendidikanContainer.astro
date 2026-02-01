@@ -3,32 +3,29 @@
 import Header from './Header.astro';
 import Nav from './Nav.astro';
 import './pendidikan.css';
-// Import CSS Global Slideshow
-import '../../Global/Slideshow/slideshow.css';
+
+// 1. PERBAIKI PATH CSS (Gunakan ../ bukan ../../)
+import '../Global/Slideshow/slideshow.css'; 
+
 import { educationData } from './educationData.js';
 ---
 
 <div class="pendidikan-wrapper">
     <div class="card-container">
-        
         <Header />
         <Nav />
-
         <main id="main-content-area" style="min-height: 200px;">
             {Object.entries(educationData).map(([key, level]) => (
                 <section id={key} class="program-section">
                     <h2 class="level-title">{level.title}</h2>
-                    
                     {level.schools.map((school, index) => (
                         <div class="school-block">
                             <h3 class="school-title">{school.name}</h3>
-                             
                             <div 
                                 id={`slideshow-${key}-${index}`} 
                                 class="slideshow-wrapper"
                                 data-images={JSON.stringify(school.images)}
                             ></div>
-
                             <div class="school-actions">
                                 {school.locationLink && (
                                     <a href={school.locationLink} class="action-btn" target="_blank">
@@ -48,12 +45,12 @@ import { educationData } from './educationData.js';
                 </section>
             ))}
         </main>
-    
     </div>
 </div>
 
 <script>
-  import { GlobalSlideshow } from '../../Global/Slideshow/GlobalSlideshow.js';
+  // 2. PERBAIKI PATH JS (Gunakan ../ bukan ../../)
+  import { GlobalSlideshow } from '../Global/Slideshow/GlobalSlideshow.js';
 
   // --- INISIALISASI ---
   let instances = [];
@@ -65,7 +62,6 @@ import { educationData } from './educationData.js';
           if (imagesAttr) {
               try {
                   const images = JSON.parse(imagesAttr);
-                  // Inisialisasi Global Slideshow
                   const instance = new GlobalSlideshow(wrapper, images);
                   instances.push(instance);
               } catch (e) {
@@ -75,7 +71,6 @@ import { educationData } from './educationData.js';
       });
   }
 
-  // --- NAVIGATION SCROLL ---
   // @ts-ignore
   window.scrollToSection = function(id) {
       const element = document.getElementById(id);
@@ -89,6 +84,5 @@ import { educationData } from './educationData.js';
       }
   };
 
-  // Run on load
   initSlideshows();
 </script>

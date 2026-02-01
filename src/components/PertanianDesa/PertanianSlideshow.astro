@@ -1,6 +1,7 @@
 ---
 // src/components/PertanianDesa/PertanianSlideshow.astro
-import '../../Global/Slideshow/slideshow.css';
+// PERBAIKAN: Gunakan '../' (satu level ke atas) bukan '../../'
+import '../Global/Slideshow/slideshow.css';
 ---
 
 <main id="main-content-area"></main>
@@ -18,7 +19,8 @@ import '../../Global/Slideshow/slideshow.css';
 </style>
 
 <script>
-  import { GlobalSlideshow } from '../../Global/Slideshow/GlobalSlideshow.js';
+  // PERBAIKAN: Gunakan '../' di sini juga
+  import { GlobalSlideshow } from '../Global/Slideshow/GlobalSlideshow.js';
 
   // DATA CONFIGURATION
   const commodityData = {
