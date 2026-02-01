@@ -1,208 +1,44 @@
 ---
-// src/components/Pendidikan/PendidikanContainer.astro
-import Header from './Header.astro';
-import Nav from './Nav.astro';
-import './pendidikan.css';
-
-// Import data yang baru dibuat
-import { educationData } from './educationData.js';
+// src/components/PertanianDesa/PertanianContainer.astro
+import PertanianNav from './PertanianNav.astro';
+import PertanianSlideshow from './PertanianSlideshow.astro';
+// PERBAIKAN: Mengimport GlobalLightbox dari folder Global karena PertanianLightbox.astro tidak ada
+import GlobalLightbox from '../Global/Lightbox/GlobalLightbox.astro';
 ---
 
-<div class="pendidikan-wrapper">
-    <div class="card-container">
-        
-        <Header />
-        <Nav />
+<div id="pertanian-desa-container">
+  <div class="card-container">
+    <div class="card-accent"></div>
 
-        <main id="main-content-area" style="min-height: 200px;">
-            {Object.entries(educationData).map(([key, level]) => (
-                <section id={key} class="program-section">
-                    <h2 class="level-title">{level.title}</h2>
-                    
-                    {level.schools.map((school, index) => (
-                        <div class="school-block">
-                            <h3 class="school-title">{school.name}</h3>
-                            
-                            <div 
-                                id={`slideshow-${key}-${index}`} 
-                                class="slideshow-wrapper"
-                                data-images={JSON.stringify(school.images)}
-                            ></div>
+    <PertanianNav />
 
-                            <div class="school-actions">
-                                {school.locationLink && (
-                                    <a href={school.locationLink} class="action-btn" target="_blank">
-                                        <img src="/Imagery/an_area.webp" alt="Lokasi" />
-                                        <span>Lihat Lokasi</span>
-                                    </a>
-                                )}
-                                {school.facebookLink && (
-                                    <a href={school.facebookLink} class="action-btn btn-fb" target="_blank">
-                                        <img src="/Imagery/Facebook_logo.webp" alt="Facebook" />
-                                        <span>Facebook</span>
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </section>
-            ))}
-        </main>
-    
-    </div>
+    <PertanianSlideshow />
+  </div>
+
+  <GlobalLightbox />
 </div>
 
-<script>
-  // LOGIC SLIDESHOW (Hanya Logic, Tidak Ada Data)
-  
-  class SimpleSlideshow {
-      constructor(container, images) {
-          this.container = container;
-          this.images = images;
-          this.currentIndex = 0;
-          this.timer = null;
-          this.slides = [];
-          this.dots = [];
-          this.isPlaying = true;
-
-          this.init();
-      }
-
-      init() {
-          this.container.innerHTML = ''; // Bersihkan container (jika ada loading state)
-
-          this.images.forEach((imgSrc, index) => {
-              const bg = document.createElement('div');
-              bg.className = 'vanilla-slide slide-bg';
-              bg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              const fg = document.createElement('div');
-              fg.className = 'vanilla-slide slide-fg';
-              fg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              // Event Global Lightbox
-              fg.addEventListener('click', () => {
-                // @ts-ignore
-                if (typeof window.openGlobalLightbox === 'function') {
-                    // @ts-ignore
-                    window.openGlobalLightbox({ src: imgSrc });
-                }
-              });
-
-              if (index === 0) {
-                  bg.classList.add('vanilla-active');
-                  fg.classList.add('vanilla-active');
-              }
-
-              this.container.appendChild(bg);
-              this.container.appendChild(fg);
-              this.slides.push({ bg, fg });
-          });
-
-          this.createControls();
-          this.startAutoPlay();
-      }
-
-      createControls() {
-          const leftArrow = document.createElement('div');
-          leftArrow.className = 'vanilla-arrow vanilla-arrow--left';
-          leftArrow.innerHTML = '❮';
-          leftArrow.onclick = (e) => { e.stopPropagation(); this.prevSlide(); };
-
-          const rightArrow = document.createElement('div');
-          rightArrow.className = 'vanilla-arrow vanilla-arrow--right';
-          rightArrow.innerHTML = '❯';
-          rightArrow.onclick = (e) => { e.stopPropagation(); this.nextSlide(); };
-
-          const dotsContainer = document.createElement('div');
-          dotsContainer.className = 'vanilla-indicators-container';
-
-          this.images.forEach((_, index) => {
-              const dot = document.createElement('div');
-              dot.className = `vanilla-indicator-dot ${index === 0 ? 'vanilla-active' : ''}`;
-              dot.onclick = (e) => { e.stopPropagation(); this.goToSlide(index); };
-              dotsContainer.appendChild(dot);
-              this.dots.push(dot);
-          });
-
-          this.container.appendChild(leftArrow);
-          this.container.appendChild(rightArrow);
-          this.container.appendChild(dotsContainer);
-      }
-
-      goToSlide(index) {
-          if (!this.slides[this.currentIndex]) return;
-          this.slides[this.currentIndex].bg.classList.remove('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.remove('vanilla-active');
-          this.dots[this.currentIndex].classList.remove('vanilla-active');
-
-          this.currentIndex = index;
-
-          this.slides[this.currentIndex].bg.classList.add('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.add('vanilla-active');
-          this.dots[this.currentIndex].classList.add('vanilla-active');
-          this.resetTimer();
-      }
-
-      nextSlide() { this.goToSlide((this.currentIndex + 1) % this.images.length); }
-      prevSlide() { this.goToSlide((this.currentIndex - 1 + this.images.length) % this.images.length); }
-      
-      startAutoPlay() {
-          if (this.timer) clearInterval(this.timer);
-          this.isPlaying = true;
-          this.timer = setInterval(() => this.nextSlide(), 4000);
-      }
-      stopAutoPlay() {
-          this.isPlaying = false;
-          if (this.timer) clearInterval(this.timer);
-      }
-      resetTimer() { if (this.isPlaying) this.startAutoPlay(); }
+<style>
+  /* --- CONTAINER & GLOBAL STYLE --- */
+  #pertanian-desa-container {
+    font-family: 'Inter', sans-serif;
+    color: #2d2520;
+    padding: 40px 20px;
+    background-color: #e3e8ee;
   }
 
-  // --- INISIALISASI ---
-  let slideshowInstances = [];
-
-  function initSlideshows() {
-      // Cari semua wrapper slideshow yang dirender oleh Astro
-      const wrappers = document.querySelectorAll('.slideshow-wrapper');
-      
-      wrappers.forEach(wrapper => {
-          // Ambil data images dari attribute HTML
-          const imagesAttr = wrapper.getAttribute('data-images');
-          if (imagesAttr) {
-              try {
-                  const images = JSON.parse(imagesAttr);
-                  const instance = new SimpleSlideshow(wrapper, images);
-                  slideshowInstances.push(instance);
-              } catch (e) {
-                  console.error("Gagal parse gambar slideshow", e);
-              }
-          }
-      });
+  .card-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); 
+      overflow: hidden;
   }
 
-  // --- NAVIGATION FUNCTION ---
-  // @ts-ignore
-  window.scrollToSection = function(id) {
-      const element = document.getElementById(id);
-      if (element) {
-          const offset = 20;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = element.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - offset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-      }
-  };
-
-  // Jalankan inisialisasi
-  initSlideshows();
-
-  // Handle Lightbox Events
-  window.addEventListener('lightbox:opened', () => {
-      slideshowInstances.forEach(inst => inst.stopAutoPlay());
-  });
-  window.addEventListener('lightbox:closed', () => {
-      slideshowInstances.forEach(inst => inst.startAutoPlay());
-  });
-</script>
+  .card-accent {
+      height: 8px;
+      background: linear-gradient(90deg, #2e7d32, #f9a825, #3e2723);
+  }
+</style>
