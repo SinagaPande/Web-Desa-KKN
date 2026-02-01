@@ -70,50 +70,78 @@
     color: #1b5e20; 
 }
 
-/* --- 4. BUTTONS --- */
+/* --- 4. BUTTONS (Revisi: Menyamakan Ukuran dengan Pendidikan) --- */
 .k-actions {
     padding: 25px 30px 10px 30px;
     display: flex;
     gap: 16px;
+    align-items: center; /* Tambahan agar sejajar vertikal */
 }
 
 .k-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 10px 25px; 
-    font-size: 0.95rem; 
-    font-weight: 600;
+    gap: 12px; /* Disamakan dengan Pendidikan (sebelumnya 10px) */
+    
+    /* DIMENSI PERSIS PENDIDIKAN */
+    padding: 12px 28px; 
+    font-size: 1rem; 
+    font-weight: 700; 
+    
     border-radius: 50px;
     text-decoration: none;
     transition: all 0.3s ease;
+    
     background-color: #ffffff; 
-    color: #2e7d32; 
+    color: #2e7d32; /* Tetap hijau tua khas Keagamaan */
     border: 2px solid #2e7d32; 
+    
+    /* Tambahkan shadow agar sama 'pop-up' nya */
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.15);
 }
 
 .k-btn:hover {
+    /* Style Hover tetap Nuansa Hijau Pekat Keagamaan */
     background-color: #2e7d32;
     color: white;
-    box-shadow: 0 8px 15px rgba(46, 125, 50, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.25);
+    transform: translateY(-3px);
 }
 
+/* UKURAN ICON PERSIS PENDIDIKAN */
 .k-btn img {
-    width: 24px;  
-    height: 24px;
+    width: 48px;   /* Diperbesar dari 24px ke 48px */
+    height: 48px;  /* Diperbesar dari 24px ke 48px */
     object-fit: contain;
+    margin-right: 5px; 
+    transition: transform 0.3s ease;
 }
 
-/* Override warna icon saat hover agar kontras dengan background hijau */
 .k-btn:hover img {
-    filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1); /* Icon jadi putih saat hover */
 }
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 600px) {
     .k-place-title { margin-left: 20px; font-size: 1.3rem; }
-    .k-actions { padding: 20px; }
-    .k-btn { width: 100%; }
+    
+    .k-actions { 
+        padding: 20px 20px 5px 20px; /* Padding mobile disamakan */
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .k-btn { 
+        width: 100%; 
+        /* Padding & Font Mobile disamakan dengan Pendidikan */
+        padding: 16px 20px;
+        font-size: 1.05rem;
+    }
+
+    .k-btn img {
+        /* Ukuran icon mobile disamakan */
+        width: 38px;
+        height: 38px;
+    }
 }
