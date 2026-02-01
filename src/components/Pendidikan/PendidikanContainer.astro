@@ -3,8 +3,8 @@
 import Header from './Header.astro';
 import Nav from './Nav.astro';
 import './pendidikan.css';
-
-// Import data yang baru dibuat
+// Import CSS Global Slideshow
+import '../../Global/Slideshow/slideshow.css';
 import { educationData } from './educationData.js';
 ---
 
@@ -22,7 +22,7 @@ import { educationData } from './educationData.js';
                     {level.schools.map((school, index) => (
                         <div class="school-block">
                             <h3 class="school-title">{school.name}</h3>
-                            
+                             
                             <div 
                                 id={`slideshow-${key}-${index}`} 
                                 class="slideshow-wrapper"
@@ -53,127 +53,21 @@ import { educationData } from './educationData.js';
 </div>
 
 <script>
-  // LOGIC SLIDESHOW (Hanya Logic, Tidak Ada Data)
-  
-  class SimpleSlideshow {
-      constructor(container, images) {
-          this.container = container;
-          this.images = images;
-          this.currentIndex = 0;
-          this.timer = null;
-          this.slides = [];
-          this.dots = [];
-          this.isPlaying = true;
-
-          this.init();
-      }
-
-      init() {
-          this.container.innerHTML = ''; // Bersihkan container (jika ada loading state)
-
-          this.images.forEach((imgSrc, index) => {
-              const bg = document.createElement('div');
-              bg.className = 'vanilla-slide slide-bg';
-              bg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              const fg = document.createElement('div');
-              fg.className = 'vanilla-slide slide-fg';
-              fg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              // Event Global Lightbox
-              fg.addEventListener('click', () => {
-                // @ts-ignore
-                if (typeof window.openGlobalLightbox === 'function') {
-                    // @ts-ignore
-                    window.openGlobalLightbox({ src: imgSrc });
-                }
-              });
-
-              if (index === 0) {
-                  bg.classList.add('vanilla-active');
-                  fg.classList.add('vanilla-active');
-              }
-
-              this.container.appendChild(bg);
-              this.container.appendChild(fg);
-              this.slides.push({ bg, fg });
-          });
-
-          this.createControls();
-          this.startAutoPlay();
-      }
-
-      createControls() {
-          const leftArrow = document.createElement('div');
-          leftArrow.className = 'vanilla-arrow vanilla-arrow--left';
-          leftArrow.innerHTML = '❮';
-          leftArrow.onclick = (e) => { e.stopPropagation(); this.prevSlide(); };
-
-          const rightArrow = document.createElement('div');
-          rightArrow.className = 'vanilla-arrow vanilla-arrow--right';
-          rightArrow.innerHTML = '❯';
-          rightArrow.onclick = (e) => { e.stopPropagation(); this.nextSlide(); };
-
-          const dotsContainer = document.createElement('div');
-          dotsContainer.className = 'vanilla-indicators-container';
-
-          this.images.forEach((_, index) => {
-              const dot = document.createElement('div');
-              dot.className = `vanilla-indicator-dot ${index === 0 ? 'vanilla-active' : ''}`;
-              dot.onclick = (e) => { e.stopPropagation(); this.goToSlide(index); };
-              dotsContainer.appendChild(dot);
-              this.dots.push(dot);
-          });
-
-          this.container.appendChild(leftArrow);
-          this.container.appendChild(rightArrow);
-          this.container.appendChild(dotsContainer);
-      }
-
-      goToSlide(index) {
-          if (!this.slides[this.currentIndex]) return;
-          this.slides[this.currentIndex].bg.classList.remove('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.remove('vanilla-active');
-          this.dots[this.currentIndex].classList.remove('vanilla-active');
-
-          this.currentIndex = index;
-
-          this.slides[this.currentIndex].bg.classList.add('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.add('vanilla-active');
-          this.dots[this.currentIndex].classList.add('vanilla-active');
-          this.resetTimer();
-      }
-
-      nextSlide() { this.goToSlide((this.currentIndex + 1) % this.images.length); }
-      prevSlide() { this.goToSlide((this.currentIndex - 1 + this.images.length) % this.images.length); }
-      
-      startAutoPlay() {
-          if (this.timer) clearInterval(this.timer);
-          this.isPlaying = true;
-          this.timer = setInterval(() => this.nextSlide(), 4000);
-      }
-      stopAutoPlay() {
-          this.isPlaying = false;
-          if (this.timer) clearInterval(this.timer);
-      }
-      resetTimer() { if (this.isPlaying) this.startAutoPlay(); }
-  }
+  import { GlobalSlideshow } from '../../Global/Slideshow/GlobalSlideshow.js';
 
   // --- INISIALISASI ---
-  let slideshowInstances = [];
+  let instances = [];
 
   function initSlideshows() {
-      // Cari semua wrapper slideshow yang dirender oleh Astro
       const wrappers = document.querySelectorAll('.slideshow-wrapper');
-      
       wrappers.forEach(wrapper => {
-          // Ambil data images dari attribute HTML
           const imagesAttr = wrapper.getAttribute('data-images');
           if (imagesAttr) {
               try {
                   const images = JSON.parse(imagesAttr);
-                  const instance = new SimpleSlideshow(wrapper, images);
-                  slideshowInstances.push(instance);
+                  // Inisialisasi Global Slideshow
+                  const instance = new GlobalSlideshow(wrapper, images);
+                  instances.push(instance);
               } catch (e) {
                   console.error("Gagal parse gambar slideshow", e);
               }
@@ -181,7 +75,7 @@ import { educationData } from './educationData.js';
       });
   }
 
-  // --- NAVIGATION FUNCTION ---
+  // --- NAVIGATION SCROLL ---
   // @ts-ignore
   window.scrollToSection = function(id) {
       const element = document.getElementById(id);
@@ -195,14 +89,6 @@ import { educationData } from './educationData.js';
       }
   };
 
-  // Jalankan inisialisasi
+  // Run on load
   initSlideshows();
-
-  // Handle Lightbox Events
-  window.addEventListener('lightbox:opened', () => {
-      slideshowInstances.forEach(inst => inst.stopAutoPlay());
-  });
-  window.addEventListener('lightbox:closed', () => {
-      slideshowInstances.forEach(inst => inst.startAutoPlay());
-  });
 </script>

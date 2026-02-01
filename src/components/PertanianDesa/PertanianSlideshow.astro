@@ -1,47 +1,26 @@
 ---
 // src/components/PertanianDesa/PertanianSlideshow.astro
+import '../../Global/Slideshow/slideshow.css';
 ---
 
 <main id="main-content-area"></main>
 
 <style>
-  /* --- STYLE PROGRAM SECTION & SLIDESHOW --- */
-  /* Selector :global digunakan karena elemen dibuat oleh JS saat runtime */
-  
+  /* Pertahankan style layout section, tapi hapus style slideshow internal */
   :global(.program-section) { padding: 40px 0; border-bottom: 1px solid #eee; }
   :global(.program-title-wrapper) { padding: 0 30px 20px 30px; }
   :global(.program-title) { border-left: 5px solid #f9a825; padding-left: 15px; font-size: 1.3rem; margin-bottom: 0; }
-  :global(.slideshow-wrapper) { width: 100%; aspect-ratio: 16/9; position: relative; background: #000; overflow: hidden; }
-
-  :global(.vanilla-slide) { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
-  :global(.vanilla-slide.vanilla-active) { opacity: 1; pointer-events: auto; }
   
-  :global(.slide-bg) { 
-      position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
-      background-size: cover; filter: blur(15px) brightness(0.7); 
+  /* Override Warna Dot Aktif Khusus Pertanian (Kuning/Oranye) */
+  :global(#main-content-area) {
+      --dot-active: #f9a825;
   }
-  :global(.slide-fg) { 
-      position: absolute; width: 100%; height: 100%; 
-      background-size: contain; background-repeat: no-repeat; background-position: center;
-      z-index: 2; cursor: zoom-in;
-  }
-
-  :global(.vanilla-arrow) {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-      width: 45px; height: 45px; background: rgba(255,255,255,0.8); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-  }
-  :global(.vanilla-arrow--left) { left: 20px; }
-  :global(.vanilla-arrow--right) { right: 20px; }
-  :global(.vanilla-indicators-container) { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: center; gap: 8px; z-index: 10; }
-  :global(.vanilla-indicator-dot) { width: 10px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 50%; cursor: pointer; }
-  :global(.vanilla-indicator-dot.vanilla-active) { background: #f9a825; width: 25px; border-radius: 10px; }
 </style>
 
 <script>
-  // ============================================
+  import { GlobalSlideshow } from '../../Global/Slideshow/GlobalSlideshow.js';
+
   // DATA CONFIGURATION
-  // ============================================
   const commodityData = {
       tebu: {
           title: "Perkebunan Tebu",
@@ -99,126 +78,16 @@
       }
   };
 
-  let slideshowInstances = [];
+  let instances = [];
 
-  // ============================================
-  // SLIDESHOW LOGIC
-  // ============================================
-  class SimpleSlideshow {
-      constructor(containerId, images) {
-          this.container = document.getElementById(containerId);
-          this.images = images;
-          this.currentIndex = 0;
-          this.timer = null;
-          this.slides = [];
-          this.dots = [];
-          this.isPlaying = true; 
-
-          if(this.container) this.init();
-      }
-
-      init() {
-          this.container.innerHTML = '';
-          this.images.forEach((imgSrc, index) => {
-              const bg = document.createElement('div');
-              bg.className = 'vanilla-slide slide-bg';
-              bg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              const fg = document.createElement('div');
-              fg.className = 'vanilla-slide slide-fg';
-              fg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
-              
-              // Memanggil fungsi global openLightbox
-            fg.addEventListener('click', () => {
-                if (typeof window.openGlobalLightbox === 'function') {
-                    // Kirim object payload
-                    window.openGlobalLightbox({ src: imgSrc });
-                }
-            });
-
-              if (index === 0) {
-                  bg.classList.add('vanilla-active');
-                  fg.classList.add('vanilla-active');
-              }
-
-              this.container.appendChild(bg);
-              this.container.appendChild(fg);
-              this.slides.push({ bg, fg });
-          });
-
-          this.createControls();
-          this.startAutoPlay();
-      }
-
-      createControls() {
-          const leftArrow = document.createElement('div');
-          leftArrow.className = 'vanilla-arrow vanilla-arrow--left';
-          leftArrow.innerHTML = '&#10094;';
-          leftArrow.onclick = (e) => { e.stopPropagation(); this.prevSlide(); };
-
-          const rightArrow = document.createElement('div');
-          rightArrow.className = 'vanilla-arrow vanilla-arrow--right';
-          rightArrow.innerHTML = '&#10095;';
-          rightArrow.onclick = (e) => { e.stopPropagation(); this.nextSlide(); };
-
-          const dotsContainer = document.createElement('div');
-          dotsContainer.className = 'vanilla-indicators-container';
-
-          this.images.forEach((_, index) => {
-              const dot = document.createElement('div');
-              dot.className = `vanilla-indicator-dot ${index === 0 ? 'vanilla-active' : ''}`;
-              dot.onclick = (e) => { e.stopPropagation(); this.goToSlide(index); };
-              dotsContainer.appendChild(dot);
-              this.dots.push(dot);
-          });
-
-          this.container.appendChild(leftArrow);
-          this.container.appendChild(rightArrow);
-          this.container.appendChild(dotsContainer);
-      }
-
-      goToSlide(index) {
-          if(!this.slides[this.currentIndex]) return;
-          this.slides[this.currentIndex].bg.classList.remove('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.remove('vanilla-active');
-          this.dots[this.currentIndex].classList.remove('vanilla-active');
-
-          this.currentIndex = index;
-
-          this.slides[this.currentIndex].bg.classList.add('vanilla-active');
-          this.slides[this.currentIndex].fg.classList.add('vanilla-active');
-          this.dots[this.currentIndex].classList.add('vanilla-active');
-          this.resetTimer();
-      }
-
-      nextSlide() { this.goToSlide((this.currentIndex + 1) % this.images.length); }
-      prevSlide() { this.goToSlide((this.currentIndex - 1 + this.images.length) % this.images.length); }
-
-      startAutoPlay() {
-          if (this.timer) clearInterval(this.timer);
-          this.isPlaying = true;
-          this.timer = setInterval(() => this.nextSlide(), 4000); 
-      }
-
-      stopAutoPlay() {
-          this.isPlaying = false;
-          if (this.timer) clearInterval(this.timer);
-      }
-
-      resetTimer() {
-          if (this.isPlaying) this.startAutoPlay();
-      }
-  }
-
-  // ============================================
-  // RENDERING LOGIC
-  // ============================================
   function renderAllSections() {
       const mainArea = document.getElementById('main-content-area');
       if(!mainArea) return;
       
       mainArea.innerHTML = ''; 
-      slideshowInstances = []; 
+      // Cleanup old instances if any
+      instances.forEach(i => i.destroy && i.destroy());
+      instances = []; 
 
       for (const [key, data] of Object.entries(commodityData)) {
           const section = document.createElement('section');
@@ -233,23 +102,14 @@
               </div>
               <div class="slideshow-wrapper" id="slideshow-${key}"></div>
           `;
-
           mainArea.appendChild(section);
-          const slideshow = new SimpleSlideshow(`slideshow-${key}`, data.images);
-          slideshowInstances.push(slideshow);
+          
+          // Inisialisasi Global Slideshow
+          const slideshow = new GlobalSlideshow(`slideshow-${key}`, data.images);
+          instances.push(slideshow);
       }
   }
 
-  // Integrasi Event Lightbox untuk mengontrol AutoPlay
-  window.addEventListener('lightbox:opened', () => {
-      slideshowInstances.forEach(inst => inst.stopAutoPlay());
-  });
-
-  window.addEventListener('lightbox:closed', () => {
-      slideshowInstances.forEach(inst => inst.startAutoPlay());
-  });
-
-  // Run on load
   document.addEventListener('DOMContentLoaded', () => {
       renderAllSections();
   });

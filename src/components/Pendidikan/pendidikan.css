@@ -1,14 +1,10 @@
 /* --- 1. RESET & LAYOUT DASAR (MODIFIED FOR ASTRO INTEGRATION) --- */
-/* Global reset (*) dihapus agar tidak merusak navbar Astro */
-/* html scroll-behavior dihapus karena sudah ada di Layout.astro */
-
-/* Mengganti 'body' dengan wrapper class spesifik */
 .pendidikan-wrapper {
     background-color: #e3e8ee; 
     font-family: 'Inter', sans-serif;
     color: #2d2520; 
     padding: 40px 20px;
-    width: 100%; /* Pastikan full width */
+    width: 100%; 
 }
 
 /* --- 2. KARTU UTAMA --- */
@@ -129,7 +125,7 @@
 .btn-sd { background: linear-gradient(135deg, #e53935, #b71c1c); }
 .btn-smp { background: linear-gradient(135deg, #1e88e5, #0d47a1); }
 
-/* --- 5. PROGRAM SECTION & SLIDESHOW --- */
+/* --- 5. PROGRAM SECTION --- */
 .program-section { padding: 40px 0; border-bottom: 1px solid #eee; }
 
 .level-title { 
@@ -153,14 +149,10 @@
     margin-bottom: 15px;
     margin-left: 30px; 
     margin-right: 30px;
-    color: #2d2520; /* Ensure text color is set */
+    color: #2d2520; 
 }
 
-.slideshow-wrapper {
-    width: 100%; aspect-ratio: 16/9; position: relative; background: #000; overflow: hidden;
-}
-
-/* --- BUTTONS --- */
+/* --- BUTTONS (Facebook & Lokasi) --- */
 .school-actions {
     padding: 25px 30px 10px 30px;
     display: flex;
@@ -262,83 +254,3 @@
 
     .card-btn span { font-size: 0.7rem; letter-spacing: 0.5px; }
 }
-
-/* --- LIGHTBOX & SLIDESHOW CORE --- */
-.lightbox-nav {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    color: white; font-size: 3rem; font-weight: bold; padding: 20px;
-    cursor: pointer; user-select: none; z-index: 10001;
-    transition: 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-.lightbox-nav:hover { color: #fbc02d; transform: translateY(-50%) scale(1.2); }
-.prev { left: 20px; }
-.next { right: 20px; }
-
-.lightbox-close {
-    position: absolute; top: 20px; right: 30px;
-    color: white; font-size: 3rem; font-weight: bold;
-    cursor: pointer; z-index: 10002; transition: 0.3s;
-}
-.lightbox-close:hover { color: #fbc02d; }
-
-@media (max-width: 600px) {
-    .lightbox-nav { font-size: 2rem; padding: 10px; }
-    .prev { left: 5px; }
-    .next { right: 5px; }
-}
-
-.vanilla-slide { 
-    position: absolute; width: 100%; height: 100%; 
-    opacity: 0; transition: opacity 0.8s ease;
-    pointer-events: none; 
-}
-.vanilla-slide.vanilla-active { opacity: 1; pointer-events: auto; }
-
-.slide-bg { 
-    position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
-    background-size: cover; filter: blur(15px) brightness(0.7); 
-}
-
-.slide-fg { 
-    position: absolute; width: 100%; height: 100%; 
-    background-size: contain; background-repeat: no-repeat; background-position: center;
-    z-index: 2; cursor: zoom-in;
-}
-
-.vanilla-arrow {
-    position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-    width: 45px; height: 45px; background: rgba(255,255,255,0.8); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    pointer-events: auto; 
-    color: #333; /* Ensure arrow color */
-}
-.vanilla-arrow--left { left: 20px; }
-.vanilla-arrow--right { right: 20px; }
-
-.vanilla-indicators-container { 
-    position: absolute; bottom: 20px; width: 100%; 
-    display: flex; justify-content: center; gap: 8px; z-index: 10;
-    pointer-events: auto; 
-}
-
-.vanilla-indicator-dot { width: 10px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 50%; cursor: pointer; }
-.vanilla-indicator-dot.vanilla-active { background: #fff; width: 25px; border-radius: 10px; }
-
-.lightbox {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.95);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-.lightbox.active { opacity: 1; visibility: visible; }
-.lightbox-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.lightbox-content {
-    max-width: 90vw; max-height: 90vh; object-fit: contain; pointer-events: auto;
-    border: none; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-    transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.lightbox.active .lightbox-content { transform: scale(1); }
-
-body.no-scroll { overflow: hidden; }
