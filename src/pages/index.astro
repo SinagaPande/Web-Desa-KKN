@@ -9,6 +9,7 @@ import KependudukanSection from '../components/KependudukanSection.astro';
 import KomposisiLuasWilayahSection from '../components/KomposisiLuasWilayahSection.astro';
 import PetaDesa from '../components/PetaDesa.astro';
 import StrukturOrganisasi from '../components/Organigram/StrukturOrganisasi.astro';
+import PendidikanContainer from '../components/Pendidikan/PendidikanContainer.astro';
 
 // --- UBAH BAGIAN INI ---
 // Hapus import lama:
@@ -44,7 +45,9 @@ import PertanianContainer from '../components/PertanianDesa/PertanianContainer.a
             <PertanianContainer />
         </div>
 
-        <SectionPlaceholder id="pendidikan" title="Pendidikan" dark={true} />
+        <div id="pendidikan" class="scroll-mt-24 md:scroll-mt-28">
+            <PendidikanContainer />
+        </div>
 		<SectionPlaceholder id="keagamaan" title="Keagamaan" />
 		<SectionPlaceholder id="program-&-kegiatan" title="Program & Kegiatan" dark={true} />
 		<SectionPlaceholder id="informasi" title="Informasi" />

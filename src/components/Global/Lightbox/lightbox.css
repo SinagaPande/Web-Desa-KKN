@@ -1,0 +1,150 @@
+/* =========================================
+   GLOBAL LIGHTBOX CORE STYLES
+   ========================================= */
+
+/* Container Utama (Overlay) */
+.global-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000; /* Layer paling atas */
+    
+    background-color: rgba(15, 23, 42, 0.95); /* Dark Slate backdrop */
+    backdrop-filter: blur(8px); /* Efek blur modern */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+}
+
+/* State Aktif */
+.global-lightbox.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Wrapper Konten (Gambar + Caption) */
+.global-lightbox-wrapper {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gambar Lightbox */
+.global-lightbox-content {
+    /* Default: Gambar besar tapi menyisakan ruang untuk caption */
+    max-width: 90vw;
+    max-height: 80vh; 
+    width: auto;
+    height: auto;
+    
+    object-fit: contain;
+    border-radius: 4px;
+    
+    /* Border putih tipis & shadow agar "pop-out" */
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    
+    transform: scale(0.95);
+    transition: transform 0.3s ease-out;
+}
+
+.global-lightbox.active .global-lightbox-content {
+    transform: scale(1);
+}
+
+/* Area Caption (Khusus Pemerintahan) */
+.global-lightbox-caption {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    
+    /* Animasi masuk */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease 0.1s; /* Delay dikit biar smooth */
+}
+
+.global-lightbox.active .global-lightbox-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Judul (Nama Pejabat) */
+.gl-title {
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Sub-judul (Jabatan) */
+.gl-subtitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 1rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* =========================================
+   RESPONSIVE (MOBILE)
+   ========================================= */
+@media (max-width: 640px) {
+    .global-lightbox {
+        padding: 10px;
+    }
+
+    .global-lightbox-content {
+        /* Di HP, gambar sedikit lebih kecil untuk memberi ruang teks */
+        max-height: 60vh;
+        max-width: 95vw;
+    }
+
+    .global-lightbox-caption {
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .gl-title {
+        font-size: 1.1rem;
+        line-height: 1.3;
+        padding: 0 10px;
+    }
+
+    .gl-subtitle {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.8rem;
+    }
+}
+
+/* Utility Class untuk Body (Mencegah scroll background) */
+:global(body.no-scroll) {
+    overflow: hidden !important;
+}

@@ -1,0 +1,98 @@
+---
+// Import CSS Global Lightbox
+import './lightbox.css';
+---
+
+<div id="global-lightbox" class="global-lightbox" aria-hidden="true">
+    <div class="global-lightbox-wrapper">
+        <img id="global-lightbox-img" class="global-lightbox-content" src="" alt="Preview" />
+        
+        <div id="global-lightbox-caption" class="global-lightbox-caption">
+            <h3 id="gl-title" class="gl-title"></h3>
+            <span id="gl-subtitle" class="gl-subtitle"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Definisi tipe data untuk payload
+    // (JSDoc digunakan agar intellisense berfungsi, TypeScript opsional di blok script astro)
+    /**
+     * @typedef {Object} LightboxPayload
+     * @property {string} src - URL gambar
+     * @property {string} [title] - Judul (misal: Nama Pejabat) - Opsional
+     * @property {string} [subtitle] - Subjudul (misal: Jabatan) - Opsional
+     */
+
+    const lightbox = document.getElementById('global-lightbox');
+    const lightboxImg = document.getElementById('global-lightbox-img');
+    const titleEl = document.getElementById('gl-title');
+    const subtitleEl = document.getElementById('gl-subtitle');
+
+    // --- 1. CORE LOGIC: OPEN ---
+    window.openGlobalLightbox = (payload) => {
+        if (!lightbox || !lightboxImg) return;
+
+        // Reset state
+        lightboxImg.src = payload.src;
+        
+        // Handle Caption (Pemerintahan vs Lainnya)
+        if (titleEl && subtitleEl) {
+            if (payload.title) {
+                // Mode Pemerintahan (Ada Teks)
+                titleEl.textContent = payload.title;
+                subtitleEl.textContent = payload.subtitle || '';
+                titleEl.style.display = 'block';
+                subtitleEl.style.display = 'block';
+            } else {
+                // Mode Pertanian & Pendidikan (Gambar Saja)
+                titleEl.textContent = '';
+                subtitleEl.textContent = '';
+                titleEl.style.display = 'none';
+                subtitleEl.style.display = 'none';
+            }
+        }
+
+        // Tampilkan Visual (Class logic only)
+        lightbox.classList.add('active');
+        document.body.classList.add('no-scroll');
+
+        // Dispatch Event (PENTING: Agar slideshow di halaman lain pause)
+        window.dispatchEvent(new CustomEvent('lightbox:opened'));
+    };
+
+    // --- 2. CORE LOGIC: CLOSE ---
+    function closeGlobalLightbox() {
+        if (!lightbox) return;
+
+        lightbox.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+
+        // Dispatch Event (PENTING: Agar slideshow resume)
+        window.dispatchEvent(new CustomEvent('lightbox:closed'));
+
+        // Cleanup src setelah animasi selesai (estimasi 300ms)
+        setTimeout(() => {
+            if (lightboxImg) lightboxImg.src = '';
+        }, 300);
+    }
+
+    // --- 3. EVENT LISTENERS ---
+    if (lightbox) {
+        // Klik area gelap untuk menutup
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || (e.target as Element).closest('.global-lightbox-wrapper') === null) {
+                // Kecualikan klik pada gambar/caption
+                if (e.target !== lightboxImg && (e.target as Element).closest('.global-lightbox-caption')) return;
+                closeGlobalLightbox();
+            }
+        });
+    }
+
+    // Tombol ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape" && lightbox?.classList.contains('active')) {
+            closeGlobalLightbox();
+        }
+    });
+</script>

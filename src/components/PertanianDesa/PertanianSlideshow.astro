@@ -129,11 +129,12 @@
               fg.style.backgroundImage = `url('${encodeURI(imgSrc)}')`;
               
               // Memanggil fungsi global openLightbox
-              fg.addEventListener('click', () => {
-                  if (typeof window.openLightbox === 'function') {
-                      window.openLightbox(imgSrc);
-                  }
-              });
+            fg.addEventListener('click', () => {
+                if (typeof window.openGlobalLightbox === 'function') {
+                    // Kirim object payload
+                    window.openGlobalLightbox({ src: imgSrc });
+                }
+            });
 
               if (index === 0) {
                   bg.classList.add('vanilla-active');
