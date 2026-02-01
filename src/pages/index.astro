@@ -11,8 +11,9 @@ import PetaDesa from '../components/PetaDesa.astro';
 import StrukturOrganisasi from '../components/Organigram/StrukturOrganisasi.astro';
 import PendidikanContainer from '../components/Pendidikan/PendidikanContainer.astro';
 import PertanianContainer from '../components/PertanianDesa/PertanianContainer.astro';
-// 1. Import komponen Keagamaan baru
 import KeagamaanContainer from '../components/Keagamaan/KeagamaanContainer.astro';
+// 1. Import Komponen Program Baru
+import ProgramContainer from '../components/ProgramKegiatan/ProgramContainer.astro';
 ---
 
 <Layout title="Desa Sukadana Ilir - Lampung Utara">
@@ -49,7 +50,10 @@ import KeagamaanContainer from '../components/Keagamaan/KeagamaanContainer.astro
             <KeagamaanContainer />
         </div>
 
-		<SectionPlaceholder id="program-&-kegiatan" title="Program & Kegiatan" dark={true} />
+        <div id="program-&-kegiatan" class="scroll-mt-24 md:scroll-mt-28">
+            <ProgramContainer />
+        </div>
+		
 		<SectionPlaceholder id="informasi" title="Informasi" />
 	</main>
 

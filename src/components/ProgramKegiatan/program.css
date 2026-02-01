@@ -1,0 +1,89 @@
+/* src/components/ProgramKegiatan/program.css */
+
+/* --- 1. WRAPPER & LAYOUT --- */
+.program-wrapper {
+    background-color: #fdfbf7; 
+    font-family: 'Inter', sans-serif;
+    color: #2d2520; 
+    padding: 60px 20px;
+    width: 100%; 
+}
+
+.p-card-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 1000px; 
+    margin: 0 auto;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); 
+    overflow: hidden;
+    border: 1px solid #f3eedc;
+}
+
+/* REVISI: Aksen Atas Merah Putih
+   Menggunakan gradien Merah ke Abu-abu muda (#e2e8f0) 
+   agar bagian "Putih" tetap terlihat kontras dengan background kartu.
+*/
+.p-card-accent {
+    height: 8px;
+    background: linear-gradient(90deg, #991b1b 0%, #dc2626 40%, #e2e8f0 100%);
+    border-bottom: 1px solid #f1f5f9; /* Garis tipis di bawah untuk mempertegas batas */
+}
+
+/* --- 2. HEADER --- */
+.p-card-header {
+    padding: 40px 30px;
+    text-align: center;
+    border-bottom: 1px solid #f3eedc;
+    background-image: radial-gradient(#e5d5b0 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.p-card-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    /* REVISI: Warna Teks Hitam (Charcoal) */
+    color: #1a1a1a; 
+    margin-bottom: 10px;
+}
+
+.p-header-desc { 
+    /* REVISI: Warna Teks Deskripsi Abu-abu Gelap (Hampir Hitam) */
+    color: #4b5563; 
+    font-style: italic; 
+    font-weight: 500; 
+}
+
+/* --- 3. KONTEN PROGRAM --- */
+.p-section { padding: 30px 0; }
+
+.p-event-block { 
+    margin-bottom: 60px; 
+    padding-bottom: 40px;
+    border-bottom: 1px dashed #d4af37; /* Garis pemisah tetap emas sebagai aksen */
+}
+
+.p-event-block:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.p-event-title { 
+    /* TETAP: Garis samping Emas */
+    border-left: 5px solid #d4af37; 
+    padding-left: 20px; 
+    font-size: 1.5rem; 
+    font-weight: 700;
+    margin-bottom: 25px;
+    margin-left: 30px; 
+    margin-right: 30px;
+    /* REVISI: Warna Judul Kegiatan Hitam */
+    color: #1a1a1a; 
+}
+
+/* --- 4. MOBILE RESPONSIVE --- */
+@media (max-width: 600px) {
+    .p-event-title { margin-left: 20px; font-size: 1.3rem; }
+    .program-wrapper { padding: 40px 10px; }
+}

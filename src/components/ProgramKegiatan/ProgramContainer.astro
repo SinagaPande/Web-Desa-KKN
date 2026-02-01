@@ -1,0 +1,58 @@
+---
+// src/components/ProgramKegiatan/ProgramContainer.astro
+import Header from './Header.astro';
+import './program.css';
+import '../Global/Slideshow/slideshow.css'; 
+
+import { programData } from './programData.js';
+---
+
+<div class="program-wrapper">
+    <div class="p-card-container">
+        <Header />
+        
+        <main class="p-content-area">
+            {Object.entries(programData).map(([key, section]) => (
+                <section id={`p-${key}`} class="p-section">
+                    {section.events.map((event, index) => (
+                        <div class="p-event-block">
+                            <h3 class="p-event-title">{event.name}</h3>
+                            
+                            <div 
+                                id={`slideshow-prog-${index}`} 
+                                class="slideshow-wrapper"
+                                data-images={JSON.stringify(event.images)}
+                            ></div>
+                            
+                            </div>
+                    ))}
+                </section>
+            ))}
+        </main>
+    </div>
+</div>
+
+<script>
+  import { GlobalSlideshow } from '../Global/Slideshow/GlobalSlideshow.js';
+
+  // Inisialisasi Slideshow Khusus Program
+  function initProgramSlideshows() {
+      const wrappers = document.querySelectorAll('.program-wrapper .slideshow-wrapper');
+      
+      wrappers.forEach(wrapper => {
+          if (wrapper.innerHTML.trim() !== "") return;
+
+          const imagesAttr = wrapper.getAttribute('data-images');
+          if (imagesAttr) {
+              try {
+                  const images = JSON.parse(imagesAttr);
+                  new GlobalSlideshow(wrapper, images);
+              } catch (e) {
+                  console.error("Gagal parse gambar program", e);
+              }
+          }
+      });
+  }
+
+  initProgramSlideshows();
+</script>
