@@ -35,7 +35,6 @@ import OrganigramTree from './OrganigramTree.astro';
         padding: 40px 20px;
         width: 100%;
         min-height: 80vh;
-        
         /* Flexbox Center untuk Desktop */
         display: flex;
         justify-content: center; 
@@ -72,19 +71,19 @@ import OrganigramTree from './OrganigramTree.astro';
        ========================================= */
     @media (max-width: 768px) {
         .organigram-scope {
-            display: block; /* Scroll mode */
+            display: block;
+            /* Scroll mode */
             overflow-x: auto;
             overflow-y: hidden;
-            
             /* [MOBILE VARIABLE OVERRIDES] */
             --card-width: 140px;
             --gap-vertical: 30px;
-            
             padding: 0; 
         }
 
         .organigram-wrapper {
-            transform: none !important; /* Matikan scale */
+            transform: none !important;
+            /* Matikan scale */
             margin: 0;
             padding: 20px;
             box-shadow: none;
@@ -93,12 +92,14 @@ import OrganigramTree from './OrganigramTree.astro';
             min-width: 100vw; 
         }
 
-        /* --- PERBAIKAN JUDUL AGAR FIT SCREEN & STICKY --- */
+        /* --- PERBAIKAN JUDUL AGAR TIDAK MENIMPA NAVBAR --- */
         .organigram-header {
             width: calc(100vw - 40px) !important;
             max-width: calc(100vw - 40px) !important;
-            position: sticky !important;
-            left: 20px !important; 
+            
+            /* UBAH DARI STICKY KE RELATIVE AGAR TIDAK NABRAK NAVBAR */
+            position: relative !important; 
+            left: auto !important;
             
             /* Styling Teks Mobile */
             font-size: 1rem !important;
@@ -107,8 +108,8 @@ import OrganigramTree from './OrganigramTree.astro';
             margin-bottom: 30px;
             padding-bottom: 15px;
             
-            z-index: 50;
-            background-color: #ffffff; 
+            z-index: 10; /* Turunkan Z-Index */
+            background-color: #ffffff;
         }
 
         /* --- KARTU JABATAN (NODE) --- */
@@ -179,7 +180,6 @@ import OrganigramTree from './OrganigramTree.astro';
 
         // Jalankan saat load
         setTimeout(() => fitOrganigram(true), 100);
-
         // Jalankan saat resize
         window.addEventListener('resize', () => {
              requestAnimationFrame(() => fitOrganigram(false));
