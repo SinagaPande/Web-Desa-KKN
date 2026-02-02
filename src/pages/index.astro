@@ -57,8 +57,61 @@ import ProgramContainer from '../components/ProgramKegiatan/ProgramContainer.ast
 		<SectionPlaceholder id="informasi" title="Informasi" />
 	</main>
 
-	<footer class="bg-lampung-dark text-lampung-gold py-10 text-center border-t-4 border-lampung-gold font-sans">
-		<p class="text-xs opacity-80">© 2026 KKN ITERA & Desa Sukadana Ilir.</p>
+    <footer class="bg-lampung-dark text-lampung-bone border-t-4 border-lampung-gold mt-auto">
+		<div class="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+				
+                <div class="flex flex-col md:flex-row lg:flex-row items-center lg:items-center gap-6 lg:gap-8 text-center md:text-left">
+                    <div class="shrink-0">
+						<img 
+                            src="/Imagery/Logo_LampungUtara.webp" 
+                            alt="Logo Kabupaten Lampung Utara" 
+                            class="h-24 lg:h-32 w-auto drop-shadow-md"
+                        />
+					</div>
+                    <div class="space-y-2 text-sm font-light">
+                        <h3 class="font-serif text-lg font-bold text-lampung-gold tracking-wide">Desa Sukadana Ilir</h3>
+						<p class="opacity-90 leading-relaxed">
+                            CW96+RFX, Sukadana Ilir,<br>
+                            Kec. Bunga Mayang, Kab. Lampung Utara,<br>
+                            Lampung 34555
+                        </p>
+                        <div class="pt-2 border-t border-white/10 mt-2">
+						    <p class="font-medium">Telp: 0812-7163-639</p>
+						    <p class="text-lampung-gold font-serif italic mt-1">Sunanto, S.H – Sekretaris Desa</p>
+                        </div>
+					</div>
+				</div>
+
+				<div class="flex flex-col items-center justify-center text-center space-y-3 lg:border-x lg:border-white/10 lg:px-4 py-4 lg:py-0">
+					<p class="text-xs tracking-widest uppercase opacity-60">Portal Resmi Desa</p>
+					<p class="text-sm font-serif">
+                        © 2026 <span class="text-lampung-gold font-bold">KKN PPM 14 ITERA</span> <br class="hidden lg:block"/> & Desa Sukadana Ilir
+                    </p>
+				</div>
+
+				<div class="flex flex-col items-center lg:items-end gap-4">
+					<div class="flex flex-row items-center justify-center lg:justify-end gap-4 md:gap-6">
+                        <img 
+                            src="/Imagery/itera_logo.webp" 
+                            alt="Logo ITERA" 
+                            class="h-20 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"
+                        />
+                        <img 
+                            src="/Imagery/kkn_logo.webp" 
+                            alt="Logo KKN ITERA" 
+                            class="h-20 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"
+                        />
+                        <img 
+                            src="/Imagery/kkn14_logo.webp" 
+                            alt="Logo KKN PPM 14" 
+                            class="h-20 lg:h-24 w-auto object-contain hover:scale-105 transition-transform"
+                        />
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</footer>
 
 </Layout>
